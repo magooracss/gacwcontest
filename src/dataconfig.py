@@ -1,33 +1,45 @@
 import ConfigParser
 from os import path
-import constants
+
+######## INPUT MAILBOX ##################
+from constants import _CONFIG_FILE, _IN_SECTION, _IN_HOST, _IN_USERNAME
+from constants import _IN_PASS, _IN_SRV_TYPE, _IN_PORT, _IN_PROCDIR
+#########################################
+
+
 
 class appConfig:
 	""" This class administered all data used for configuration the application """
 	
 	def __init__ (self):
 
-		configFile = ConfigParser.RawConfigParser()
+		self.configFile = ConfigParser.RawConfigParser()
 
 		if path.exists(_CONFIG_FILE):
-			configFile.read(_CONFIG_FILE)
+			self.configFile.read(_CONFIG_FILE)
 		else:
-			createNewCFG(_CONFIG_FILE)
+			self.createNewCFG (_CONFIG_FILE)
+
+		self.hostIn = self.configFile.get( _IN_SECTION ,  _IN_HOST )
+		self.userIn = self.configFile.get( _IN_SECTION , _IN_USERNAME )
+		self.passIn = self.configFile.get( _IN_SECTION , _IN_PASS )
+		self.srvTypeIn = self.configFile.get( _IN_SECTION , _IN_SRV_TYPE )
+		self.portIn = self.configFile.get( _IN_SECTION , _IN_PORT )
+		self.procDir = self.configFile.get( _IN_SECTION , _IN_PROCDIR )
 
 	
-	def	createNewCFG(fileName):
+	def	createNewCFG(self, fileName):
 		""" if Not exists config file. I'll create a new one with default values """
 	
 		#Mailer inbox
 
-		configFile.add_section(_IN_SECTION)
-		configFile.set(_IN_SECTION, _IN_HOST , "mail.yourhost.com")
-		configFile.set(_IN_SECTION, _IN_USERNAME , "your username por inbox")
-		configFile.set(_IN_SECTION, _IN_PASS , "your password")
-		configFile.set(_IN_SECTION, _IN_SRV_TYPE , "POP3_SSL")
-		configFile.set(_IN_SECTION, _IN_PORT , "995")
-		configFile.set(_IN_SECTION, _IN_PROCDIR , "./procDir")
+		self.configFile.add_section(_IN_SECTION)
+		self.configFile.set(_IN_SECTION, _IN_HOST , "mail.yourhost.com")
+		self.configFile.set(_IN_SECTION, _IN_USERNAME , "your username por inbox")
+		self.configFile.set(_IN_SECTION, _IN_PASS , "your password")
+		self.configFile.set(_IN_SECTION, _IN_SRV_TYPE , "POP3_SSL")
+		self.configFile.set(_IN_SECTION, _IN_PORT , "995")
+		self.configFile.set(_IN_SECTION, _IN_PROCDIR , "./procDir")
 
-	def readConfig (section, value):
-	#TODO Verify that section and value exists in configFile
-		return config.get(section, value)
+		with open(fileName, 'wb') as cfgfile:
+			self.configFile.write(cfgfile)

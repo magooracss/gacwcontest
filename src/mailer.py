@@ -1,23 +1,23 @@
 import poplib
 from email.Parser import Parser
-
+from dataconfig import appConfig
 
 #TODO Make IMAP implementation
 
 
-class mailer (self):
+class mailer ():
 	""" This class check mailbox and store new/updated scores in database"""
 
 	def __init__(self):
 		
-		#TODO: Put this values in a config file
+		configuration = appConfig()
 
-		self.host = "elHost" # address of server POP3
-		self.user = "usuarioCorreo"	#Mail User
-		self.password = "claveUsuario"	#Pass mail user
-		self.srvType = "POP"	#Type server mail (IMAP/POP3/POP3_SSL)
-		self.port = 995 #Port of server
-		self.procDir = "./procDir"
+		self.host = configuration.hostIn
+		self.user = configuration.userIn
+		self.password = configuration.passIn
+		self.srvType = configuration.srvTypeIn
+		self.port = configuration.portIn
+		self.procDir = configuration.procDir
 		
 	
 	def processMail (self, mailNumber, theConnection):
@@ -52,3 +52,8 @@ class mailer (self):
 		
 		#Close the connection
 		cnx.quit()
+
+if __name__ == '__main__':
+	cfg = mailer()
+	cfg.getNewLogs()
+
