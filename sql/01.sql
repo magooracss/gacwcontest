@@ -48,6 +48,7 @@ CREATE TABLE qsos
 , qcall varchar (20)
 , rstr integer default 0
 , exchr integer default 0
+, t integer default 0
 , confirmed integer default 0 -- Exists qCall log loaded
 , points integer default 0 -- Points for this qso
 , refItuCallSign default 0 -- Country, Continent & Zone reference
