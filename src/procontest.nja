@@ -1,0 +1,6 @@
+{
+  "venv": "", 
+  "name": "procontest", 
+  "license": "GNU General Public License v3", 
+  "description": "Process log files for contest"
+}

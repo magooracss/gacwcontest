@@ -14,6 +14,8 @@ class Cabrillo(object):
         self.vCabrilllo = 0  # Version of Cabrillo
 
     def fileFormatOK(self, aFile):
+       # For this version, aFile is valid Cabrillo when in its lines
+       # exists labels contained in array validCriteria 
         fData = open(aFile, 'r')
         aLinePart = fData.readline().partition(':')
         validCriteria = ['START-OF-LOG', 'CALLSIGN', 'CATEGORY',
@@ -30,10 +32,27 @@ class Cabrillo(object):
 
         return (len(validCriteria) == 0)
 
+    def saveQSO(self, aLine=None):
+        #None  
+        return
+ 
+    def saveLabel (self, aLine=None):
+        #None
+        return
+ 
+
     def processLine(aLine):
       #  raise NotImplementedError("Please Implement this method")
       # Cabrillo v2 & v3 differ only in the header information (I think)
-      # It isn't necessary to make a subclass for each version
+      # It isn't necessary to make a subclass for each version 
+      # (the life is more simple)
+        aLinePart = aLine.partition(':')
+        
+        #This IF born when the programmer not use objects in the right way
+        if (aLinePart[0].upper() == 'QSO'):  
+            saveQSO(aLinePart[1].upper())
+        else:
+            saveLabel(aLinePart[1].upper())
         return
 
     def loadQSOFile(self, aFile):
