@@ -1,6 +1,10 @@
 **/logs
 **/doc
 **/test
+**/exe
+**/src/backup
+**/src/lib
 *#*.*#*
 *.*~*
 *.sq3
+*.exe
