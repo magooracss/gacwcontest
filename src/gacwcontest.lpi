@@ -17,7 +17,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <BuildNr Value="1"/>
+      <BuildNr Value="2"/>
       <StringTable CompanyName="RACSS Programación - Carlos Enrique Rodriguez" InternalName="gacwcontest" LegalCopyright="Carlos Enrique Rodriguez - RACSS Programación" LegalTrademarks="Carlos Enrique Rodriguez - RACSS Programación" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -31,12 +31,24 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
       </Item1>
+      <Item2>
+        <PackageName Value="zcomponent"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="lazreport"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="rxnew"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="6">
       <Unit0>
         <Filename Value="gacwcontest.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -45,10 +57,38 @@
       <Unit1>
         <Filename Value="frm_main.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="frmMain"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frm_main"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="dmgeneral.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DM_General"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dmgeneral"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="frm_contestam.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmContestAM"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="frm_contestam"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="dmcontest.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DM_Contest"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dmcontest"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="SD_Configuracion.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SD_Configuracion"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

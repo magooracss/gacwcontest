@@ -7,15 +7,17 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, frm_main
-  { you can add units after this };
+  Forms, rxnew, zcomponent, frm_main, dmgeneral, frm_contestam, dmcontest,
+  SD_Configuracion;
 
 {$R *.res}
 
 begin
   RequireDerivedFormResource := True;
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TDM_General, DM_General);
+  Application.CreateForm(TDM_Contest, DM_Contest);
+  Application.CreateForm(TfrmMain, frmMain);
   Application.Run;
 end.
 

@@ -1,0 +1,205 @@
+object frmContestAM: TfrmContestAM
+  Left = 368
+  Height = 395
+  Top = 150
+  Width = 636
+  Caption = 'Contest Properties'
+  ClientHeight = 395
+  ClientWidth = 636
+  Font.CharSet = ANSI_CHARSET
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Pitch = fpVariable
+  Font.Quality = fqDraft
+  OnShow = FormShow
+  LCLVersion = '1.2.6.0'
+  object edName: TEdit
+    Left = 16
+    Height = 24
+    Top = 32
+    Width = 504
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 0
+    Text = 'edName'
+  end
+  object Label1: TLabel
+    Left = 16
+    Height = 16
+    Top = 13
+    Width = 34
+    Caption = 'Name'
+    ParentColor = False
+  end
+  object edYear: TEdit
+    Left = 528
+    Height = 24
+    Top = 32
+    Width = 80
+    Anchors = [akTop, akRight]
+    TabOrder = 1
+    Text = 'edYear'
+  end
+  object Label2: TLabel
+    Left = 528
+    Height = 16
+    Top = 13
+    Width = 26
+    Caption = 'Year'
+    ParentColor = False
+  end
+  object logsFolder: TDirectoryEdit
+    Left = 16
+    Height = 24
+    Top = 308
+    Width = 576
+    ShowHidden = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    Anchors = [akTop, akLeft, akRight]
+    MaxLength = 0
+    TabOrder = 2
+  end
+  object Label3: TLabel
+    Left = 16
+    Height = 16
+    Top = 292
+    Width = 63
+    Caption = 'Logs folder'
+    ParentColor = False
+  end
+  object contestFolder: TDirectoryEdit
+    Left = 16
+    Height = 24
+    Top = 251
+    Width = 576
+    ShowHidden = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    Anchors = [akTop, akLeft, akRight]
+    MaxLength = 0
+    TabOrder = 3
+  end
+  object Label4: TLabel
+    Left = 16
+    Height = 16
+    Top = 232
+    Width = 80
+    Caption = 'Contest folder'
+    ParentColor = False
+  end
+  object GroupBox1: TGroupBox
+    Left = 160
+    Height = 56
+    Top = 88
+    Width = 267
+    Caption = 'Start'
+    ClientHeight = 38
+    ClientWidth = 263
+    TabOrder = 4
+    object dateStart: TDateEdit
+      Left = 16
+      Height = 24
+      Top = 8
+      Width = 80
+      CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+      OKCaption = 'OK'
+      CancelCaption = 'Cancel'
+      DateOrder = doNone
+      ButtonWidth = 23
+      CharCase = ecNormal
+      NumGlyphs = 1
+      MaxLength = 0
+      TabOrder = 0
+    end
+    object timeStart: TRxTimeEdit
+      Left = 152
+      Height = 24
+      Top = 8
+      Width = 72
+      CharCase = ecNormal
+      MaxLength = 8
+      TabOrder = 1
+      Text = '  :  :  '
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 160
+    Height = 56
+    Top = 160
+    Width = 267
+    Caption = 'Finish'
+    ClientHeight = 38
+    ClientWidth = 263
+    TabOrder = 5
+    object dateFinish: TDateEdit
+      Left = 16
+      Height = 24
+      Top = 8
+      Width = 80
+      CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+      OKCaption = 'OK'
+      CancelCaption = 'Cancel'
+      DateOrder = doNone
+      ButtonWidth = 23
+      CharCase = ecNormal
+      NumGlyphs = 1
+      MaxLength = 0
+      TabOrder = 0
+    end
+    object timeFinish: TRxTimeEdit
+      Left = 152
+      Height = 24
+      Top = 8
+      Width = 72
+      CharCase = ecNormal
+      MaxLength = 8
+      TabOrder = 1
+      Text = '  :  :  '
+    end
+  end
+  object btnSaveExit: TBitBtn
+    Left = 16
+    Height = 39
+    Top = 353
+    Width = 120
+    Caption = 'Save && exit'
+    Glyph.Data = {
+      36040000424D3604000000000000360000002800000010000000100000000100
+      2000000000000004000064000000640000000000000000000000BA6A368FB969
+      35B5B86935EEB76835FFB56835FFB46734FFB26634FFB06533FFAE6433FFAC63
+      32FFAA6232FFA96132FFA86031FFA76031FEA66031F1A86131C4BA6A35DEEBC6
+      ADFFEAC5ADFFFEFBF8FFFEFBF8FFFEFBF8FFFEFBF8FFFEFBF8FFFEFBF8FFFEFB
+      F8FFFEFBF8FFFEFBF8FFFEFBF8FFC89A7CFFC79879FFA76031EDBA6B37FEEDCA
+      B3FFE0A27AFFFEFAF7FF62C088FF62C088FF62C088FF62C088FF62C088FF62C0
+      88FF62C088FF62C088FFFDF9F6FFCA8D65FFC99B7CFFA76031FEBB6C38FFEECC
+      B6FFE1A27AFFFEFAF7FFBFDCC2FFBFDCC2FFBFDCC2FFBFDCC2FFBFDCC2FFBFDC
+      C2FFBFDCC2FFBFDCC2FFFDF9F6FFCD9068FFCC9E81FFA86132FFBB6B38FFEFCE
+      B8FFE1A279FFFEFAF7FF62C088FF62C088FF62C088FF62C088FF62C088FF62C0
+      88FF62C088FF62C088FFFDF9F6FFCF936AFFCEA384FFAA6132FFBA6A36FFEFD0
+      BBFFE2A27AFFFEFBF8FFFEFBF8FFFEFBF8FFFEFBF8FFFEFBF8FFFEFBF8FFFEFB
+      F8FFFEFBF8FFFEFBF8FFFEFBF8FFD3966DFFD2A78AFFAB6232FFBB6A36FFF0D2
+      BEFFE2A37AFFE2A37AFFE1A37AFFE2A37BFFE1A37BFFE0A178FFDE9F77FFDD9F
+      76FFDC9D74FFD99B72FFD89971FFD69970FFD5AB8EFFAD6333FFBB6A36FFF2D5
+      C2FFE3A37AFFE3A37AFFE2A37BFFE2A37BFFE2A47BFFE1A279FFE0A178FFDEA0
+      77FFDE9E75FFDC9D74FFDA9B73FFD99B73FFDAB095FFAF6433FFBB6A36FFF2D8
+      C5FFE3A47BFFE3A37AFFE3A47AFFE2A47BFFE2A37BFFE1A37BFFE1A279FFDFA0
+      77FFDE9F76FFDD9E74FFDB9C72FFDC9D74FFDDB59AFFB16534FFBB6B36FFF4D9
+      C7FFE6A67DFFC88C64FFC98D65FFC98E67FFCB926CFFCB926DFFCA9069FFC88C
+      65FFC88C64FFC88C64FFC88C64FFDA9C74FFE1BA9FFFB36634FFBB6B36FEF4DC
+      C9FFE7A77DFFF9ECE1FFF9ECE1FFF9EDE3FFFCF4EEFFFDFAF7FFFDF7F3FFFAED
+      E5FFF7E7DBFFF7E5D9FFF6E5D8FFDEA077FFE4BEA4FFB46734FFBC6B36FAF5DD
+      CCFFE7A87EFFFAF0E8FFFAF0E8FFC98D66FFFAF0E9FFFDF8F3FFFEFAF8FFFCF4
+      EFFFF9E9DFFFF7E7DBFFF7E5D9FFE0A278FFE7C2A9FFB66835FFBC6B36F0F6DF
+      D0FFE8A87EFFFCF6F1FFFCF6F1FFC88C64FFFAF1E9FFFBF4EEFFFDFAF7FFFDF9
+      F6FFFAF0E8FFF8E8DDFFF7E6DBFFE1A37AFFEFD5C3FFB76935FEBC6B36D8F6DF
+      D1FFE9AA80FFFEFAF6FFFDFAF6FFC88C64FFFBF3EEFFFBF1EAFFFCF6F2FFFEFB
+      F8FFFCF6F1FFF9ECE2FFF8E7DBFFEED0BAFFECD0BDFFBB703EF8BC6B369BF6E0
+      D1FFF7E0D1FFFEFBF8FFFEFBF7FFFDF9F6FFFCF5F0FFFAF0EAFFFBF2EDFFFDF9
+      F6FFFDFAF7FFFBF1EBFFF8E9DFFEECD0BDFBC9895EECB5693563BC6B3671BC6B
+      3690BC6B36CCBC6B36EEBC6B36FABB6B36FEBB6B36FFBB6A36FFBB6A36FFBC6C
+      39FFBD6E3BFFBB6D3AFFBB6B38EFBB703ECBB6693554FFFFFF00
+    }
+    OnClick = btnSaveExitClick
+    TabOrder = 6
+  end
+end

@@ -1,8 +1,58 @@
-object Form1: TForm1
-  Left = 368
-  Height = 401
-  Top = 150
-  Width = 540
+object frmMain: TfrmMain
+  Left = 188
+  Height = 392
+  Top = 188
+  Width = 907
   Caption = 'GACWContest'
+  Menu = MainMenu1
   LCLVersion = '1.2.6.0'
+  object ActionList1: TActionList
+    Images = DM_General.ImgAcciones
+    left = 628
+    top = 112
+    object contNew: TAction
+      Category = 'Contest'
+      Caption = 'New Contest'
+      Hint = 'Create a new contest'
+      ImageIndex = 9
+      OnExecute = contNewExecute
+    end
+    object prgExit: TAction
+      Category = 'Program'
+      Caption = 'Exit'
+      ImageIndex = 0
+      OnExecute = prgExitExecute
+    end
+    object contLoad: TAction
+      Category = 'Contest'
+      Caption = 'Load Contest'
+      ImageIndex = 9
+      OnExecute = contLoadExecute
+    end
+  end
+  object MainMenu1: TMainMenu
+    Images = DM_General.ImgAcciones
+    left = 125
+    top = 47
+    object MenuItem1: TMenuItem
+      Caption = 'Program'
+      object MenuItem3: TMenuItem
+        Action = prgExit
+      end
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Contest'
+      object MenuItem4: TMenuItem
+        Action = contNew
+      end
+      object MenuItem5: TMenuItem
+        Action = contLoad
+      end
+    end
+  end
+  object SelContest: TSelectDirectoryDialog
+    Title = 'Select Contest''s folder'
+    left = 301
+    top = 88
+  end
 end
