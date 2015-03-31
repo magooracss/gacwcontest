@@ -13,8 +13,11 @@ type
   { TfrmMain }
 
   TfrmMain = class(TForm)
+    conAnalizeLogs: TAction;
     contLoad: TAction;
     MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
     Panel1: TPanel;
     prgExit: TAction;
     contNew: TAction;
@@ -28,6 +31,7 @@ type
     stYearContest: TStaticText;
     stNameContest: TStaticText;
     stPath: TStaticText;
+    procedure conAnalizeLogsExecute(Sender: TObject);
     procedure contLoadExecute(Sender: TObject);
     procedure contNewExecute(Sender: TObject);
     procedure prgExitExecute(Sender: TObject);
@@ -89,6 +93,11 @@ procedure TfrmMain.contLoadExecute(Sender: TObject);
 begin
   if SelContest.Execute then
     ContestProperties(SelContest.FileName);
+end;
+
+procedure TfrmMain.conAnalizeLogsExecute(Sender: TObject);
+begin
+  DM_Contest.analizeLogDir;
 end;
 
 

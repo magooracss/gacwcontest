@@ -5,8 +5,8 @@ unit dmcontest;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, ZConnection, ZSqlProcessor
-  ,IniFiles
+  Classes, SysUtils, FileUtil, rxmemds, ZConnection, ZSqlProcessor
+  ,IniFiles, db
   ;
 
 const
@@ -32,7 +32,49 @@ type
 
   TDM_Contest = class(TDataModule)
     cnxContest: TZConnection;
+    qsosconfirmed: TLongintField;
+    qsosexchr: TLongintField;
+    qsosexchs: TLongintField;
+    qsosfreq: TStringField;
+    qsosidQSO: TLongintField;
+    qsospoints: TLongintField;
+    qsosqcall: TStringField;
+    qsosqdate: TStringField;
+    qsosqmode: TStringField;
+    qsosqTime: TStringField;
+    qsosrefItuCallSign: TLongintField;
+    qsosrefStation: TLongintField;
+    qsosrstr: TLongintField;
+    qsosrsts: TLongintField;
+    qsost: TLongintField;
+    stations: TRxMemoryData;
+    qsos: TRxMemoryData;
     sqlNewContest: TZSQLProcessor;
+    stationsacity: TStringField;
+    stationsaCountry: TStringField;
+    stationsaddress: TStringField;
+    stationsaPostalCode: TStringField;
+    stationsaStateProv: TStringField;
+    stationscallsign: TStringField;
+    stationscAssisted: TStringField;
+    stationscBand: TStringField;
+    stationsclaimedScore: TLongintField;
+    stationsclub: TStringField;
+    stationscMode: TStringField;
+    stationscontest: TStringField;
+    stationscOper: TStringField;
+    stationscOverlay: TStringField;
+    stationscPower: TStringField;
+    stationscreatedBy: TStringField;
+    stationscStation: TStringField;
+    stationscTime: TStringField;
+    stationsemail: TStringField;
+    stationsidStation: TLongintField;
+    stationslocation: TStringField;
+    stationsname: TStringField;
+    stationsofftime: TStringField;
+    stationsoperators: TStringField;
+    stationssoapbox: TStringField;
   private
      conName
     ,conYear
@@ -57,6 +99,11 @@ type
    procedure SaveProperties (namecontest, yearContest: string; dateCStart: TDate;
                             timeCStart: TTime; dateCFinish: TDate; timeCFinish: TTime;
                             contestFolder, logsFolder: string);
+
+   procedure analizeLogDir;
+   procedure analizeFile (aLogFile: string);
+   procedure analizeLine (aLine: string);
+
   end;
 
 var
@@ -97,14 +144,13 @@ begin
 
 
   (**************************   DATABASE   ************************************)
-(*  with cnxContest do
+  with cnxContest do
   begin
     if Connected then Disconnect;
     LibraryLocation:= ExtractFilePath(Application.ExeName) + 'sqlite3.dll';
     Database:= cfgPath+ DirectorySeparator + DB_NAME;
     Connect;
   end;
-  *)
  end
  else
   Result:= False;
@@ -157,6 +203,46 @@ begin
  timeStart:= timeCStart;
  timeFinish:= timeCFinish;
  SaveContest;
+end;
+
+
+(*******************************************************************************
+*** Insert LogFile in database
+*******************************************************************************)
+
+procedure TDM_Contest.analizeLine(aLine: string);
+begin
+
+end;
+
+
+procedure TDM_Contest.analizeFile(aLogFile: string);
+var
+  fileLog: TextFile;
+  aLine: string;
+begin
+  AssignFile(fileLog, aLogFile);
+  try
+   Reset(fileLog);
+   Readln(fileLog, aLine);
+   analizeLine(aLine);
+  finally
+    CloseFile(fileLog);
+  end;
+end;
+
+procedure TDM_Contest.analizeLogDir;
+var
+  fileSearch: TSearchRec;
+begin
+  If FindFirst (logPath+'\*.*',faArchive, fileSearch)=0 then
+  begin
+    Repeat
+       stations.Insert;
+       analizeFile(logPath+'\'+fileSearch.Name);
+    Until FindNext(fileSearch)<>0;
+  end;
+  FindClose(fileSearch);
 end;
 
 end.

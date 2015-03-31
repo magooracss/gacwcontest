@@ -1,10 +1,10 @@
 object frmMain: TfrmMain
   Left = 188
-  Height = 392
-  Top = 188
+  Height = 391
+  Top = 189
   Width = 907
   Caption = 'GACWContest'
-  ClientHeight = 372
+  ClientHeight = 371
   ClientWidth = 907
   Menu = MainMenu1
   LCLVersion = '1.2.6.0'
@@ -87,6 +87,12 @@ object frmMain: TfrmMain
       ImageIndex = 9
       OnExecute = contLoadExecute
     end
+    object conAnalizeLogs: TAction
+      Category = 'Contest'
+      Caption = 'Analize Logs'
+      ImageIndex = 25
+      OnExecute = conAnalizeLogsExecute
+    end
   end
   object MainMenu1: TMainMenu
     Images = DM_General.ImgAcciones
@@ -105,6 +111,12 @@ object frmMain: TfrmMain
       end
       object MenuItem5: TMenuItem
         Action = contLoad
+      end
+      object MenuItem6: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem7: TMenuItem
+        Action = conAnalizeLogs
       end
     end
   end
