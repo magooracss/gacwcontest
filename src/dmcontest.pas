@@ -5,9 +5,10 @@ unit dmcontest;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, rxmemds, ZConnection, ZSqlProcessor
+  Classes, SysUtils, FileUtil, rxmemds, ZConnection, ZSqlProcessor, ZDataset
   ,IniFiles, db
-  ;
+  , dmgeneral
+ ;
 
 const
   PROP_NAME = 'contest.cgf';
@@ -23,7 +24,12 @@ const
   PR_PATH = 'PR_PATH';
   PR_LOGPATH = 'LOG_PATH';
 
+  CBR_SEPARATOR = ':';
+
   MSG_ERROR = 'ERROR';
+
+  //Labels from Cabrillo
+  LB_qso = 'QSO';
 
 
 type
@@ -32,6 +38,7 @@ type
 
   TDM_Contest = class(TDataModule)
     cnxContest: TZConnection;
+    INSQSOs: TZQuery;
     qsosconfirmed: TLongintField;
     qsosexchr: TLongintField;
     qsosexchs: TLongintField;
@@ -47,6 +54,74 @@ type
     qsosrstr: TLongintField;
     qsosrsts: TLongintField;
     qsost: TLongintField;
+    qStationByCallacity: TStringField;
+    qStationByCallaCountry: TStringField;
+    qStationByCalladdress: TStringField;
+    qStationByCallaPostalCode: TStringField;
+    qStationByCallaStateProv: TStringField;
+    qStationByCallcallsign: TStringField;
+    qStationByCallcAssisted: TStringField;
+    qStationByCallcBand: TStringField;
+    qStationByCallclaimedScore: TLargeintField;
+    qStationByCallclub: TStringField;
+    qStationByCallcMode: TStringField;
+    qStationByCallcontest: TStringField;
+    qStationByCallcOper: TStringField;
+    qStationByCallcOverlay: TStringField;
+    qStationByCallcPower: TStringField;
+    qStationByCallcreatedBy: TStringField;
+    qStationByCallcStation: TStringField;
+    qStationByCallcTime: TStringField;
+    qStationByCallcTransmitter: TStringField;
+    qStationByCallemail: TStringField;
+    qStationByCallidStation: TLargeintField;
+    qStationByCalllocation: TStringField;
+    qStationByCallname: TStringField;
+    qStationByCallofftime: TStringField;
+    qStationByCallOperators: TStringField;
+    qStationByCallsoapbox: TMemoField;
+    SELQSOs: TZQuery;
+    SELQSOsconfirmed: TLargeintField;
+    SELQSOsexchr: TLargeintField;
+    SELQSOsexchs: TLargeintField;
+    SELQSOsfreq: TStringField;
+    SELQSOsidQSO: TLargeintField;
+    SELQSOspoints: TLargeintField;
+    SELQSOsqcall: TStringField;
+    SELQSOsqdate: TStringField;
+    SELQSOsqmode: TStringField;
+    SELQSOsqtime: TStringField;
+    SELQSOsrefItuCallSign: TStringField;
+    SELQSOsrefStation: TLargeintField;
+    SELQSOsrstr: TLargeintField;
+    SELQSOsrsts: TLargeintField;
+    SELQSOst: TLargeintField;
+    SELStationsacity: TStringField;
+    SELStationsaCountry: TStringField;
+    SELStationsaddress: TStringField;
+    SELStationsaPostalCode: TStringField;
+    SELStationsaStateProv: TStringField;
+    SELStationscallsign: TStringField;
+    SELStationscAssisted: TStringField;
+    SELStationscBand: TStringField;
+    SELStationsclaimedScore: TLargeintField;
+    SELStationsclub: TStringField;
+    SELStationscMode: TStringField;
+    SELStationscontest: TStringField;
+    SELStationscOper: TStringField;
+    SELStationscOverlay: TStringField;
+    SELStationscPower: TStringField;
+    SELStationscreatedBy: TStringField;
+    SELStationscStation: TStringField;
+    SELStationscTime: TStringField;
+    SELStationscTransmitter: TStringField;
+    SELStationsemail: TStringField;
+    SELStationsidStation: TLargeintField;
+    SELStationslocation: TStringField;
+    SELStationsname: TStringField;
+    SELStationsofftime: TStringField;
+    SELStationsOperators: TStringField;
+    SELStationssoapbox: TMemoField;
     stations: TRxMemoryData;
     qsos: TRxMemoryData;
     sqlNewContest: TZSQLProcessor;
@@ -68,6 +143,7 @@ type
     stationscreatedBy: TStringField;
     stationscStation: TStringField;
     stationscTime: TStringField;
+    stationscTransmitter: TStringField;
     stationsemail: TStringField;
     stationsidStation: TLongintField;
     stationslocation: TStringField;
@@ -75,6 +151,13 @@ type
     stationsofftime: TStringField;
     stationsoperators: TStringField;
     stationssoapbox: TStringField;
+    qStationByCall: TZQuery;
+    SELStations: TZQuery;
+    INSstations: TZQuery;
+    UPDStations: TZQuery;
+    UPDQSOs: TZQuery;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure qsosAfterInsert(DataSet: TDataSet);
   private
      conName
     ,conYear
@@ -84,7 +167,15 @@ type
      ,dateFinish: TDate;
      timeStart
      ,timeFinish: TTime;
+
+
+     procedure processQSOData(rowData: string);
+     procedure processStationData (rowLabel, rowData: string);
+     procedure analizeLine (aLine: string);
+     procedure GenerateDictionary;
+
   public
+   LabelsField: TStringList;
    property contestName: string read conName write conName;
    property contestYear: string read conYear write conYear;
    property contestPath: string read cfgPath write cfgPath;
@@ -102,7 +193,8 @@ type
 
    procedure analizeLogDir;
    procedure analizeFile (aLogFile: string);
-   procedure analizeLine (aLine: string);
+   procedure saveDB;
+   function LogLoaded (callsign: string): boolean;
 
   end;
 
@@ -116,12 +208,26 @@ uses
 
 { TDM_Contest }
 
+procedure TDM_Contest.qsosAfterInsert(DataSet: TDataSet);
+begin
+  with DataSet do
+  begin
+    qsosrefStation.asInteger:= 0;
+  end;
+end;
+
+procedure TDM_Contest.DataModuleCreate(Sender: TObject);
+begin
+  GenerateDictionary;
+end;
+
+
 function TDM_Contest.loadContest(path: string): boolean;
 var
   anIni: TIniFile;
 begin
  if (FileExists(path + DirectorySeparator + PROP_NAME)
-    //and FileExists(path + DirectorySeparator + DB_NAME)
+    and FileExists(path + DirectorySeparator + DB_NAME)
     )then
  begin
 
@@ -150,6 +256,8 @@ begin
     LibraryLocation:= ExtractFilePath(Application.ExeName) + 'sqlite3.dll';
     Database:= cfgPath+ DirectorySeparator + DB_NAME;
     Connect;
+    DM_General.ReiniciarTabla(stations);
+    DM_General.ReiniciarTabla(qsos);
   end;
  end
  else
@@ -210,9 +318,118 @@ end;
 *** Insert LogFile in database
 *******************************************************************************)
 
-procedure TDM_Contest.analizeLine(aLine: string);
+
+procedure TDM_Contest.processQSOData(rowData: string);
 begin
 
+end;
+
+procedure TDM_Contest.processStationData(rowLabel, rowData: string);
+var
+   fieldName:string;
+begin
+  fieldName:= LabelsField.Values[UpperCase(Trim(rowLabel))];
+  if fieldName <> EmptyStr then
+  begin
+    with stations do
+    begin
+      Edit;
+      if (FieldByName(fieldName).DataType = ftInteger) then
+      begin
+        FieldByName(fieldName).asInteger:= StrToIntDef(rowData, -1);
+        if StrToIntDef(rowData, -1) = -1 then
+          DM_General.EventLog.Error('Error casting: ' + rowLabel + ' Data: '+ rowData);
+      end
+      else
+        FieldByName(fieldName).AsString:= FieldByName(fieldName).AsString + Trim(rowData);
+      Post;
+    end;
+  end
+  else
+   DM_General.EventLog.Warning('Label unknow: ' + rowLabel);
+end;
+
+
+
+procedure TDM_Contest.analizeLine(aLine: string);
+var
+  posIdx: integer;
+  rowLabel, rowData: string;
+begin
+  posIdx:= pos(CBR_SEPARATOR, aLine);
+  rowLabel:= Copy(aLine,1,posIdx - 1);
+  rowData:= Copy (aLine, posIdx + 1 , Length(aLine)-posIdx);
+  if UpperCase(Trim(rowLabel)) = LB_qso then
+    processQSOData(rowData)
+  else
+    processStationData (rowLabel, rowData);
+end;
+
+procedure TDM_Contest.GenerateDictionary;
+begin
+  LabelsField:= TStringList.Create;
+  LabelsField.CommaText:= 'CALLSIGN=callsign, CATEGORY-ASSISTED=cAssisted'
+                         + ', CATEGORY-BAND=cBand, CATEGORY-MODE=cMode'
+                         + ', CATEGORY-OPERATOR=cOper, CATEGORY=cOper'
+                         + ', CATEGORY-POWER=cPower ,CLAIMED-SCORE=claimedScore'
+                         + ', CLUB=club,CONTEST=contest, CREATED-BY=createdBy'
+                         + ', EMAIL=email, NAME=name, ADDRESS=address'
+                         + ', ADDRESS-CITY=acity, ADDRESS-POSTALCODE=aPostalCode'
+                         + ', ADDRESS-COUNTRY=aCountry, OPERATORS=operators'
+                         + ', SOAPBOX=soapbox'
+                      ;
+end;
+
+procedure TDM_Contest.saveDB;
+var
+  id: integer;
+begin
+   DM_General.GrabarDatos(SELStations, INSstations, UPDStations, stations, 'idStation');
+
+   //lastID from last station saved
+   with qStationByCall do
+   begin
+     if active then close;
+     ParamByName('callsign').asString:= stationscallsign.asString;
+     open;
+     if RecordCount > 0 then
+       id:= qStationByCallidStation.asInteger
+     else
+     begin
+       DM_General.EventLog.ERROR ('I can´t retry id saved from ' + stationscallsign.asString);
+       id:= 0;
+     end;
+   end;
+
+   //Link Qsos and station using ID
+   with qsos do
+   begin
+     First;
+     while not eof do
+     begin
+       If qsosrefStation.asInteger = 0 then
+       begin
+        Edit;
+        qsosrefStation.asInteger:= id;
+        Post;
+       end;
+       next;
+     end;
+   end;
+
+   DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
+
+end;
+
+function TDM_Contest.LogLoaded(callsign: string): boolean;
+begin
+  with qStationByCall do
+  begin
+    if active then close;
+    ParamByName('callsign').asString:= TRIM(callsign);
+    open;
+    Result:= (RecordCount > 0);
+  end;
 end;
 
 
@@ -224,8 +441,17 @@ begin
   AssignFile(fileLog, aLogFile);
   try
    Reset(fileLog);
-   Readln(fileLog, aLine);
-   analizeLine(aLine);
+   While Not EOF(fileLog) do
+   begin
+     Readln(fileLog, aLine);
+     analizeLine(aLine);
+   end;
+   if LogLoaded (stationscallsign.AsString) then
+    DM_General.EventLog.Error('Station: ' + stationscallsign.AsString
+                              + ' file ' + aLogFile
+                              + 'already exists in DB')
+   else
+     SaveDB;
   finally
     CloseFile(fileLog);
   end;

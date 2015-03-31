@@ -64,6 +64,14 @@ object frmMain: TfrmMain
       TabOrder = 2
     end
   end
+  object txLog: TMemo
+    Left = 0
+    Height = 313
+    Top = 58
+    Width = 907
+    Align = alClient
+    TabOrder = 1
+  end
   object ActionList1: TActionList
     Images = DM_General.ImgAcciones
     left = 628
@@ -87,11 +95,17 @@ object frmMain: TfrmMain
       ImageIndex = 9
       OnExecute = contLoadExecute
     end
-    object conAnalizeLogs: TAction
+    object conAddFolderLogs: TAction
       Category = 'Contest'
-      Caption = 'Analize Logs'
-      ImageIndex = 25
-      OnExecute = conAnalizeLogsExecute
+      Caption = 'Add folder log'
+      ImageIndex = 20
+      OnExecute = conAddFolderLogsExecute
+    end
+    object conAddFileLog: TAction
+      Category = 'Contest'
+      Caption = 'Add file log'
+      ImageIndex = 18
+      OnExecute = conAddFileLogExecute
     end
   end
   object MainMenu1: TMainMenu
@@ -116,7 +130,10 @@ object frmMain: TfrmMain
         Caption = '-'
       end
       object MenuItem7: TMenuItem
-        Action = conAnalizeLogs
+        Action = conAddFolderLogs
+      end
+      object MenuItem8: TMenuItem
+        Action = conAddFileLog
       end
     end
   end
@@ -124,5 +141,11 @@ object frmMain: TfrmMain
     Title = 'Select Contest''s folder'
     left = 301
     top = 88
+  end
+  object selLog: TOpenDialog
+    DefaultExt = '.cbr'
+    Filter = 'Cabrillo (*.cbr)|*.cbr|All Files (*.*)|*.*'
+    left = 301
+    top = 144
   end
 end

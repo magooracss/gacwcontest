@@ -1,4 +1,5 @@
 object DM_General: TDM_General
+  OnCreate = DataModuleCreate
   OldCreateOrder = False
   Height = 314
   HorizontalOffset = 377
@@ -1238,5 +1239,17 @@ object DM_General: TDM_General
   object frDataset: TfrDBDataSet
     left = 42
     top = 256
+  end
+  object EventLog: TEventLog
+    AppendContent = False
+    LogType = ltFile
+    Active = False
+    RaiseExceptionOnError = False
+    DefaultEventType = etCustom
+    CustomLogType = 0
+    EventIDOffset = 0
+    Paused = False
+    left = 360
+    top = 160
   end
 end

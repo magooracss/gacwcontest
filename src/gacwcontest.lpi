@@ -17,7 +17,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <BuildNr Value="4"/>
+      <BuildNr Value="5"/>
       <StringTable CompanyName="RACSS Programación - Carlos Enrique Rodriguez" InternalName="gacwcontest" LegalCopyright="Carlos Enrique Rodriguez - RACSS Programación" LegalTrademarks="Carlos Enrique Rodriguez - RACSS Programación" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">

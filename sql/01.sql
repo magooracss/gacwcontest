@@ -17,6 +17,7 @@ CREATE TABLE stations
 , cOper varchar (10)
 , cPower varchar (5)
 , cStation varchar (15)
+, cTransmitter varchar(50)
 , cTime varchar (10)
 , cOverlay varchar(15)
 , claimedScore integer

@@ -9,7 +9,7 @@ uses
   ZConnection, ZDataset, rxmemds, StrHolder, LR_Class, LR_DBSet, LR_Shape,
   LR_E_HTM
   //,lr_e_pdf
-  , db
+  , db, eventlog
   //, LR_Class
     ,rxdbcomb
   ,dbgrids, ZAbstractRODataset
@@ -17,6 +17,7 @@ uses
 
 const
   _PRN_INFO = 'info.lrf';
+  LOG_FILE = 'program.log';
 
 type
 
@@ -28,6 +29,7 @@ type
 
   TDM_General = class(TDataModule)
     elReporte: TfrReport;
+    EventLog: TEventLog;
     frDataset: TfrDBDataSet;
     frShapeObject1: TfrShapeObject;
     ImgAcciones: TImageList;
@@ -38,6 +40,7 @@ type
     qLevantarValoresVALORSTR: TStringField;
     RxMemoryData1: TRxMemoryData;
     qLevantarValores: TZQuery;
+    procedure DataModuleCreate(Sender: TObject);
   private
     { private declarations }
   public
@@ -112,6 +115,12 @@ uses
 
 
 { TDM_General }
+
+procedure TDM_General.DataModuleCreate(Sender: TObject);
+begin
+  EventLog.FileName:= ExtractFilePath(Application.ExeName) + LOG_FILE;
+  EventLog.Active:= true;
+end;
 
 (*
 Función general que recibe un comboBox y una tabla y devuelve el combo con los valores cargados y

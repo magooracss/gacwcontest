@@ -1,4 +1,5 @@
 object DM_Contest: TDM_Contest
+  OnCreate = DataModuleCreate
   OldCreateOrder = False
   Height = 460
   HorizontalOffset = 368
@@ -10,8 +11,11 @@ object DM_Contest: TDM_Contest
     Properties.Strings = (
       'AutoEncodeStrings='
     )
+    Connected = True
     Port = 0
+    Database = 'C:\magoo\test\contest.db3'
     Protocol = 'sqlite-3'
+    LibraryLocation = 'C:\Dropbox\bak\Trabajo\Programas\gacwcontest\exe\sqlite3.dll'
     left = 584
     top = 32
   end
@@ -28,6 +32,7 @@ object DM_Contest: TDM_Contest
       ', cOper varchar (10)'
       ', cPower varchar (5)'
       ', cStation varchar (15)'
+      ', cTransmitter varchar(50)'
       ', cTime varchar (10)'
       ', cOverlay varchar(15)'
       ', claimedScore integer'
@@ -252,6 +257,12 @@ object DM_Contest: TDM_Contest
         DataType = ftString
         Precision = 0
         Size = 3000
+      end    
+      item
+        Name = 'cTransmitter'
+        DataType = ftString
+        Precision = 0
+        Size = 50
       end>
     PacketRecords = 0
     left = 48
@@ -527,6 +538,17 @@ object DM_Contest: TDM_Contest
       Required = False
       Size = 3000
     end
+    object stationscTransmitter: TStringField
+      DisplayWidth = 50
+      FieldKind = fkData
+      FieldName = 'cTransmitter'
+      Index = 25
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 50
+    end
   end
   object qsos: TRxMemoryData
     FieldDefs = <    
@@ -620,6 +642,7 @@ object DM_Contest: TDM_Contest
         Precision = 0
         Size = 0
       end>
+    AfterInsert = qsosAfterInsert
     PacketRecords = 0
     left = 179
     top = 32
@@ -777,5 +800,1704 @@ object DM_Contest: TDM_Contest
       ReadOnly = False
       Required = False
     end
+  end
+  object qStationByCall: TZQuery
+    Connection = cnxContest
+    Active = True
+    SQL.Strings = (
+      'SELECT *'
+      'FROM stations'
+      'WHERE UPPER(callsign) LIKE UPPER(:callsign)'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'callsign'
+        ParamType = ptUnknown
+      end>
+    left = 48
+    top = 328
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'callsign'
+        ParamType = ptUnknown
+      end>
+    object qStationByCallidStation: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'idStation'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qStationByCallcallsign: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'callsign'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object qStationByCallcAssisted: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cAssisted'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object qStationByCallcBand: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cBand'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qStationByCallcMode: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cMode'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qStationByCallcOper: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cOper'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qStationByCallcPower: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'cPower'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qStationByCallcStation: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cStation'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object qStationByCallcTime: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cTime'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qStationByCallcOverlay: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cOverlay'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object qStationByCallclaimedScore: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'claimedScore'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qStationByCallclub: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'club'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCallcontest: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'contest'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object qStationByCallcreatedBy: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'createdBy'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCallemail: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'email'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCalllocation: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'location'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+    object qStationByCallname: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'name'
+      Index = 16
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCalladdress: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'address'
+      Index = 17
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCallacity: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'acity'
+      Index = 18
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCallaStateProv: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'aStateProv'
+      Index = 19
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCallaPostalCode: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'aPostalCode'
+      Index = 20
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+    object qStationByCallaCountry: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'aCountry'
+      Index = 21
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCallOperators: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'Operators'
+      Index = 22
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qStationByCallofftime: TStringField
+      DisplayWidth = 140
+      FieldKind = fkData
+      FieldName = 'offtime'
+      Index = 23
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 140
+    end
+    object qStationByCallsoapbox: TMemoField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'soapbox'
+      Index = 24
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftBlob
+      Transliterate = False
+    end
+    object qStationByCallcTransmitter: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'cTransmitter'
+      Index = 25
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+  end
+  object SELStations: TZQuery
+    Connection = cnxContest
+    Active = True
+    SQL.Strings = (
+      'SELECT *'
+      'FROM stations'
+      'WHERE idStation = :idStation'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'idStation'
+        ParamType = ptUnknown
+      end>
+    left = 48
+    top = 104
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'idStation'
+        ParamType = ptUnknown
+      end>
+    object SELStationsidStation: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'idStation'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELStationscallsign: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'callsign'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object SELStationscAssisted: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cAssisted'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object SELStationscBand: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cBand'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object SELStationscMode: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cMode'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object SELStationscOper: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cOper'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object SELStationscPower: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'cPower'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELStationscStation: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cStation'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object SELStationscTime: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cTime'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object SELStationscOverlay: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cOverlay'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object SELStationsclaimedScore: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'claimedScore'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELStationsclub: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'club'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationscontest: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'contest'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object SELStationscreatedBy: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'createdBy'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationsemail: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'email'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationslocation: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'location'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+    object SELStationsname: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'name'
+      Index = 16
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationsaddress: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'address'
+      Index = 17
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationsacity: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'acity'
+      Index = 18
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationsaStateProv: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'aStateProv'
+      Index = 19
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationsaPostalCode: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'aPostalCode'
+      Index = 20
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+    object SELStationsaCountry: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'aCountry'
+      Index = 21
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationsOperators: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'Operators'
+      Index = 22
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object SELStationsofftime: TStringField
+      DisplayWidth = 140
+      FieldKind = fkData
+      FieldName = 'offtime'
+      Index = 23
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 140
+    end
+    object SELStationssoapbox: TMemoField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'soapbox'
+      Index = 24
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftBlob
+      Transliterate = False
+    end
+    object SELStationscTransmitter: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'cTransmitter'
+      Index = 25
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+  end
+  object INSstations: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'INSERT INTO stations'
+      '(idStation, callsign , cAssisted , cBand  , cMode  , cOper  , cPower  , cStation  , cTime  , cOverlay  , claimedScore , club  , contest  , createdBy  , email  , location  , name  , address  , acity  , aStateProv  , aPostalCode  , aCountry  , Operators  , offtime  , soapbox, cTransmitter )'
+      'VALUES'
+      '(:idStation, :callsign , :cAssisted , :cBand  , :cMode  , :cOper  , :cPower  , :cStation  , :cTime  , :cOverlay  , :claimedScore , :club  , :contest  , :createdBy  , :email  , :location  , :name  , :address  , :acity  , :aStateProv  , :aPostalCode  , :aCountry  , :Operators  , :offtime  , :soapbox, :cTransmitter )'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'idStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'callsign'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cAssisted'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cBand'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cMode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cOper'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cPower'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cTime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cOverlay'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'claimedScore'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'club'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'contest'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'createdBy'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'email'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'location'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'name'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'address'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'acity'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aStateProv'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aPostalCode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aCountry'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'Operators'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'offtime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'soapbox'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cTransmitter'
+        ParamType = ptUnknown
+      end>
+    left = 48
+    top = 168
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'idStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'callsign'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cAssisted'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cBand'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cMode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cOper'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cPower'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cTime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cOverlay'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'claimedScore'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'club'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'contest'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'createdBy'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'email'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'location'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'name'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'address'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'acity'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aStateProv'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aPostalCode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aCountry'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'Operators'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'offtime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'soapbox'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cTransmitter'
+        ParamType = ptUnknown
+      end>
+  end
+  object UPDStations: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'UPDATE stations'
+      'SET '
+      '  callsign = :callsign '
+      ' , cAssisted = :cAssisted '
+      ' , cBand = :cBand '
+      ' , cMode  = :cMode'
+      ' , cOper  = :cOper '
+      ', cPower  = :cPower'
+      ' , cStation  = :cStation'
+      ' , cTime  = :cTime'
+      ' , cOverlay  = :cOverlay'
+      ' , claimedScore  = :claimedScore'
+      ' , club  = :club '
+      ' , contest  = :contest'
+      ' , createdBy  = :createdBy'
+      ' , email  = :email'
+      ' , location  = :location'
+      ' , name  = :name'
+      ' , address  = :address'
+      ' , acity  = :acity'
+      ' , aStateProv   = :aStateProv'
+      ', aPostalCode  = :aPostalCode'
+      ' , aCountry  = :aCountry'
+      ' , Operators  = :Operators'
+      ' , offtime  = :offtime'
+      ' , soapbox  = :soapbox'
+      ', cTransmitter = :cTransmitter'
+      'WHERE (idStation = :idStation  )'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'callsign'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cAssisted'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cBand'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cMode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cOper'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cPower'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cTime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cOverlay'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'claimedScore'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'club'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'contest'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'createdBy'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'email'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'location'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'name'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'address'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'acity'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aStateProv'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aPostalCode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aCountry'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'Operators'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'offtime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'soapbox'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cTransmitter'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'idStation'
+        ParamType = ptUnknown
+      end>
+    left = 48
+    top = 240
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'callsign'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cAssisted'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cBand'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cMode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cOper'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cPower'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cTime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cOverlay'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'claimedScore'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'club'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'contest'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'createdBy'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'email'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'location'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'name'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'address'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'acity'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aStateProv'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aPostalCode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'aCountry'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'Operators'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'offtime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'soapbox'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'cTransmitter'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'idStation'
+        ParamType = ptUnknown
+      end>
+  end
+  object SELQSOs: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'SELECT *'
+      'FROM qsos'
+      'WHERE idQSO = :idQSO'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'idQSO'
+        ParamType = ptUnknown
+      end>
+    left = 179
+    top = 104
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'idQSO'
+        ParamType = ptUnknown
+      end>
+    object SELQSOsidQSO: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'idQSO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsrefStation: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'refStation'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsfreq: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'freq'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object SELQSOsqmode: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'qmode'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsqdate: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'qdate'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object SELQSOsqtime: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'qtime'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsrsts: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'rsts'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsexchs: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'exchs'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsqcall: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'qcall'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object SELQSOsrstr: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'rstr'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsexchr: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'exchr'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOst: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 't'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsconfirmed: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'confirmed'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOspoints: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'points'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsrefItuCallSign: TStringField
+      DisplayWidth = 1020
+      FieldKind = fkData
+      FieldName = 'refItuCallSign'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1020
+    end
+  end
+  object INSQSOs: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'INSERT INTO qsos'
+      '(idQSO , refStation  , freq  , qmode , qdate , qtime  , rsts , exchsr , qcall  , rstr  , exchr  , t  , confirmed  , points  , refItuCallSign)'
+      'VALUES'
+      '(:idQSO , :refStation  , :freq  , :qmode , :qdate , :qtime  , :rsts , :exchsr , :qcall  , :rstr  , :exchr  , :t  , :confirmed  , :points  , :refItuCallSign)'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'idQSO'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'refStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'freq'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qmode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qdate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qtime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rsts'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'exchsr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qcall'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rstr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'exchr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'confirmed'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'points'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'refItuCallSign'
+        ParamType = ptUnknown
+      end>
+    left = 179
+    top = 168
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'idQSO'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'refStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'freq'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qmode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qdate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qtime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rsts'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'exchsr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qcall'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rstr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'exchr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'confirmed'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'points'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'refItuCallSign'
+        ParamType = ptUnknown
+      end>
+  end
+  object UPDQSOs: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'UPDATE QSOs'
+      'SET '
+      '   refStation  = :refStation'
+      ' , freq  = :freq '
+      ', qmode  = :qmode '
+      ', qdate  = :qdate '
+      ' , qtime  = :qtime  '
+      ', rsts   = :rsts '
+      ', exchsr  = :exchsr '
+      ' , qcall    = :qcall '
+      ', rstr   = :rstr '
+      ' , exchr   = :exchr '
+      ' , t    = :t '
+      ', confirmed    = :confirmed '
+      ', points   = :points '
+      ' , refItuCallSign  = :refItuCallSign '
+      'WHERE (idQSO = :idQSO  )'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'refStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'freq'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qmode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qdate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qtime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rsts'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'exchsr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qcall'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rstr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'exchr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'confirmed'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'points'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'refItuCallSign'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'idQSO'
+        ParamType = ptUnknown
+      end>
+    left = 179
+    top = 240
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'refStation'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'freq'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qmode'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qdate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qtime'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rsts'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'exchsr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'qcall'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rstr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'exchr'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'confirmed'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'points'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'refItuCallSign'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'idQSO'
+        ParamType = ptUnknown
+      end>
   end
 end
