@@ -74,6 +74,7 @@
         <Filename Value="frm_contestam.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmContestAM"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frm_contestam"/>
       </Unit3>
@@ -81,6 +82,7 @@
         <Filename Value="dmcontest.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DM_Contest"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dmcontest"/>
       </Unit4>

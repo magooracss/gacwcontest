@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ActnList,
-  Menus;
+  Menus, ExtCtrls, StdCtrls;
 
 type
 
@@ -15,6 +15,7 @@ type
   TfrmMain = class(TForm)
     contLoad: TAction;
     MenuItem5: TMenuItem;
+    Panel1: TPanel;
     prgExit: TAction;
     contNew: TAction;
     ActionList1: TActionList;
@@ -24,11 +25,15 @@ type
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     SelContest: TSelectDirectoryDialog;
+    stYearContest: TStaticText;
+    stNameContest: TStaticText;
+    stPath: TStaticText;
     procedure contLoadExecute(Sender: TObject);
     procedure contNewExecute(Sender: TObject);
     procedure prgExitExecute(Sender: TObject);
   private
     procedure ContestProperties (path: string);
+    procedure LoadScreen;
   public
     { public declarations }
   end;
@@ -40,6 +45,7 @@ implementation
 {$R *.lfm}
 uses
   frm_contestam
+  ,dmcontest
   ;
 
 { TfrmMain }
@@ -64,6 +70,14 @@ begin
   finally
     scrContest.Free;
   end;
+  LoadScreen;
+end;
+
+procedure TfrmMain.LoadScreen;
+begin
+  stYearContest.Caption:= DM_Contest.contestYear;
+  stNameContest.Caption:= DM_Contest.contestName;
+  stPath.Caption:= DM_Contest.contestPath;
 end;
 
 procedure TfrmMain.contNewExecute(Sender: TObject);

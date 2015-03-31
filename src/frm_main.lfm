@@ -4,8 +4,66 @@ object frmMain: TfrmMain
   Top = 188
   Width = 907
   Caption = 'GACWContest'
+  ClientHeight = 372
+  ClientWidth = 907
   Menu = MainMenu1
   LCLVersion = '1.2.6.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 58
+    Top = 0
+    Width = 907
+    Align = alTop
+    ClientHeight = 58
+    ClientWidth = 907
+    TabOrder = 0
+    object stYearContest: TStaticText
+      Left = 24
+      Height = 17
+      Top = 16
+      Width = 65
+      Caption = '0'
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+    end
+    object stNameContest: TStaticText
+      Left = 103
+      Height = 20
+      Top = 16
+      Width = 15
+      AutoSize = True
+      Caption = '---'
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 1
+    end
+    object stPath: TStaticText
+      Left = 24
+      Height = 17
+      Top = 41
+      Width = 7
+      AutoSize = True
+      Caption = '0'
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      TabOrder = 2
+    end
+  end
   object ActionList1: TActionList
     Images = DM_General.ImgAcciones
     left = 628
@@ -32,8 +90,8 @@ object frmMain: TfrmMain
   end
   object MainMenu1: TMainMenu
     Images = DM_General.ImgAcciones
-    left = 125
-    top = 47
+    left = 120
+    top = 80
     object MenuItem1: TMenuItem
       Caption = 'Program'
       object MenuItem3: TMenuItem

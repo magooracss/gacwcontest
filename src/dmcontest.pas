@@ -5,7 +5,7 @@ unit dmcontest;
 interface
 
 uses
-  Classes, SysUtils, FileUtil
+  Classes, SysUtils, FileUtil, ZConnection, ZSqlProcessor
   ,IniFiles
   ;
 
@@ -31,6 +31,8 @@ type
   { TDM_Contest }
 
   TDM_Contest = class(TDataModule)
+    cnxContest: TZConnection;
+    sqlNewContest: TZSQLProcessor;
   private
      conName
     ,conYear
@@ -61,8 +63,9 @@ var
   DM_Contest: TDM_Contest;
 
 implementation
-
 {$R *.lfm}
+uses
+  forms;
 
 { TDM_Contest }
 
@@ -70,6 +73,11 @@ function TDM_Contest.loadContest(path: string): boolean;
 var
   anIni: TIniFile;
 begin
+ if (FileExists(path + DirectorySeparator + PROP_NAME) and
+    FileExists(path + DirectorySeparator + PROP_NAME))then
+ begin
+
+ (**************************   PROPERTIES   ***********************************)
   Result:= false;
   try
     anIni:= TiniFile.Create(path + DirectorySeparator + PROP_NAME);
@@ -85,6 +93,19 @@ begin
   finally
     anIni.Free;
   end;
+
+
+  (**************************   DATABASE   ************************************)
+  with cnxContest do
+  begin
+    if Connected then Disconnect;
+    LibraryLocation:= ExtractFilePath(Application.ExeName) + 'sqlite3.dll';
+    Database:= cfgPath;
+    Connect;
+  end;
+ end
+ else
+  Result:= False;
 
 end;
 

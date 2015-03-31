@@ -9,7 +9,7 @@
         <Filename Value="gacwcontest.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="gacwcontest"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
       </Unit0>
       <Unit1>
         <Filename Value="frm_main.pas"/>
@@ -20,9 +20,9 @@
         <UnitName Value="frm_main"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="49"/>
-        <CursorPos X="48" Y="65"/>
-        <UsageCount Value="24"/>
+        <TopLine Value="60"/>
+        <CursorPos X="48" Y="79"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -37,7 +37,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="89"/>
         <CursorPos X="45" Y="104"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -45,14 +45,15 @@
         <Filename Value="frm_contestam.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmContestAM"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frm_contestam"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="43"/>
-        <CursorPos X="18" Y="59"/>
-        <UsageCount Value="24"/>
+        <TopLine Value="61"/>
+        <CursorPos X="62" Y="93"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit3>
@@ -60,13 +61,14 @@
         <Filename Value="dmcontest.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DM_Contest"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dmcontest"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="78"/>
-        <CursorPos X="36" Y="95"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="70"/>
+        <CursorPos X="54" Y="77"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit4>
@@ -74,7 +76,7 @@
         <Filename Value="SD_Configuracion.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SD_Configuracion"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\dateutil.inc"/>
@@ -89,124 +91,124 @@
     </General>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="dmgeneral.pas"/>
-        <Caret Line="106" Column="2" TopLine="79"/>
+        <Filename Value="frm_contestam.pas"/>
+        <Caret Line="56" Column="61" TopLine="40"/>
       </Position1>
       <Position2>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="27" Column="48" TopLine="19"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="26" Column="46" TopLine="9"/>
       </Position2>
       <Position3>
         <Filename Value="frm_contestam.pas"/>
-        <Caret Line="34" Column="51" TopLine="10"/>
+        <Caret Line="70" Column="19" TopLine="49"/>
       </Position3>
       <Position4>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="36" Column="64" TopLine="12"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="62" Column="69" TopLine="30"/>
       </Position4>
       <Position5>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="53" Column="13" TopLine="24"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="64" Column="69" TopLine="32"/>
       </Position5>
       <Position6>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="35" Column="26" TopLine="25"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="73" Column="1" TopLine="46"/>
       </Position6>
       <Position7>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="69" Column="26" TopLine="37"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="74" Column="1" TopLine="47"/>
       </Position7>
       <Position8>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="24" Column="49" TopLine="1"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="75" Column="1" TopLine="48"/>
       </Position8>
       <Position9>
         <Filename Value="frm_contestam.pas"/>
-        <Caret Line="67" Column="31" TopLine="38"/>
+        <Caret Line="52" Column="45" TopLine="33"/>
       </Position9>
       <Position10>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="54" Column="61" TopLine="38"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="42" Column="10" TopLine="16"/>
       </Position10>
       <Position11>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="56" Column="61" TopLine="40"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="34" Column="14" TopLine="17"/>
       </Position11>
       <Position12>
         <Filename Value="dmcontest.pas"/>
-        <Caret Line="26" Column="46" TopLine="9"/>
+        <Caret Line="33" Column="10" TopLine="21"/>
       </Position12>
       <Position13>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="70" Column="19" TopLine="49"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="54" Column="25" TopLine="29"/>
       </Position13>
       <Position14>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="62" Column="69" TopLine="30"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="104" Column="53" TopLine="91"/>
       </Position14>
       <Position15>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="64" Column="69" TopLine="32"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="121" Column="20" TopLine="93"/>
       </Position15>
       <Position16>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="73" Column="1" TopLine="46"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="77" Column="58" TopLine="60"/>
       </Position16>
       <Position17>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="74" Column="1" TopLine="47"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="79" Column="56" TopLine="60"/>
       </Position17>
       <Position18>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="75" Column="1" TopLine="48"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="83" Column="17" TopLine="66"/>
       </Position18>
       <Position19>
         <Filename Value="frm_contestam.pas"/>
-        <Caret Line="52" Column="45" TopLine="33"/>
+        <Caret Line="39" Column="26" TopLine="23"/>
       </Position19>
       <Position20>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="42" Column="10" TopLine="16"/>
+        <Filename Value="frm_contestam.pas"/>
+        <Caret Line="102" Column="43" TopLine="70"/>
       </Position20>
       <Position21>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="34" Column="14" TopLine="17"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="43" Column="13" TopLine="25"/>
       </Position21>
       <Position22>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="33" Column="10" TopLine="21"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="44" Column="13" TopLine="26"/>
       </Position22>
       <Position23>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="54" Column="25" TopLine="29"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="46" Column="13" TopLine="26"/>
       </Position23>
       <Position24>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="104" Column="53" TopLine="91"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="32" Column="1" TopLine="20"/>
       </Position24>
       <Position25>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="121" Column="20" TopLine="93"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="33" Column="1" TopLine="20"/>
       </Position25>
       <Position26>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="77" Column="58" TopLine="60"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="35" Column="26" TopLine="32"/>
       </Position26>
       <Position27>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="79" Column="56" TopLine="60"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="77" Column="14" TopLine="59"/>
       </Position27>
       <Position28>
         <Filename Value="dmcontest.pas"/>
-        <Caret Line="83" Column="17" TopLine="66"/>
+        <Caret Line="95" Column="36" TopLine="78"/>
       </Position28>
       <Position29>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="39" Column="26" TopLine="23"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="96" Column="36" TopLine="79"/>
       </Position29>
       <Position30>
-        <Filename Value="frm_contestam.pas"/>
-        <Caret Line="102" Column="43" TopLine="70"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="97" Column="35" TopLine="65"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
