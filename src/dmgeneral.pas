@@ -38,7 +38,6 @@ type
     qLevantarValoresVALORSTR: TStringField;
     RxMemoryData1: TRxMemoryData;
     qLevantarValores: TZQuery;
-    ZConnection1: TZConnection;
   private
     { private declarations }
   public

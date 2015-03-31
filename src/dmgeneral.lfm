@@ -1239,11 +1239,4 @@ object DM_General: TDM_General
     left = 42
     top = 256
   end
-  object ZConnection1: TZConnection
-    ControlsCodePage = cCP_UTF8
-    AutoEncodeStrings = False
-    Port = 0
-    left = 487
-    top = 116
-  end
 end

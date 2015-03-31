@@ -73,8 +73,9 @@ function TDM_Contest.loadContest(path: string): boolean;
 var
   anIni: TIniFile;
 begin
- if (FileExists(path + DirectorySeparator + PROP_NAME) and
-    FileExists(path + DirectorySeparator + PROP_NAME))then
+ if (FileExists(path + DirectorySeparator + PROP_NAME)
+    //and FileExists(path + DirectorySeparator + DB_NAME)
+    )then
  begin
 
  (**************************   PROPERTIES   ***********************************)
@@ -96,13 +97,14 @@ begin
 
 
   (**************************   DATABASE   ************************************)
-  with cnxContest do
+(*  with cnxContest do
   begin
     if Connected then Disconnect;
     LibraryLocation:= ExtractFilePath(Application.ExeName) + 'sqlite3.dll';
-    Database:= cfgPath;
+    Database:= cfgPath+ DirectorySeparator + DB_NAME;
     Connect;
   end;
+  *)
  end
  else
   Result:= False;
@@ -126,6 +128,20 @@ begin
     finally
       anIni.Free;
     end;
+
+    (**************************   DATABASE   ************************************)
+
+   if NOT FileExists(cfgPath + DirectorySeparator + DB_NAME) then
+   begin
+    with cnxContest do
+    begin
+      if Connected then Disconnect;
+      LibraryLocation:= ExtractFilePath(Application.ExeName) + 'sqlite3.dll';
+      Database:= cfgPath+ DirectorySeparator + DB_NAME;
+      Connect;
+      sqlNewContest.Execute;
+    end;
+   end;
 end;
 
 procedure TDM_Contest.SaveProperties(namecontest, yearContest: string;

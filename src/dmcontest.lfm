@@ -7,6 +7,9 @@ object DM_Contest: TDM_Contest
   object cnxContest: TZConnection
     ControlsCodePage = cCP_UTF8
     AutoEncodeStrings = False
+    Properties.Strings = (
+      'AutoEncodeStrings='
+    )
     Port = 0
     Protocol = 'sqlite-3'
     left = 32
@@ -92,7 +95,9 @@ object DM_Contest: TDM_Contest
       ', zone varchar (200)'
       ');'
     )
+    Connection = cnxContest
     Delimiter = ';'
+    CleanupStatements = True
     left = 120
     top = 152
   end
