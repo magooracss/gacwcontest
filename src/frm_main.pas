@@ -5,8 +5,8 @@ unit frm_main;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ActnList,
-  Menus, ExtCtrls, StdCtrls
+  Classes, SysUtils, db, FileUtil, Forms, Controls, Graphics, Dialogs, ActnList,
+  Menus, ExtCtrls, StdCtrls, DBGrids
   ,dmgeneral;
 
 type
@@ -17,6 +17,7 @@ type
     conAddFileLog: TAction;
     conAddFolderLogs: TAction;
     contLoad: TAction;
+    DataSource1: TDataSource;
     txLog: TMemo;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;

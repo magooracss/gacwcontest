@@ -1241,7 +1241,7 @@ object DM_General: TDM_General
     top = 256
   end
   object EventLog: TEventLog
-    AppendContent = False
+    AppendContent = True
     LogType = ltFile
     Active = False
     RaiseExceptionOnError = False

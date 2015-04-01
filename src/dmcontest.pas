@@ -28,6 +28,8 @@ const
 
   MSG_ERROR = 'ERROR';
 
+  QSO_NOT_CONFIRMED = 0;
+
   //Labels from Cabrillo
   LB_qso = 'QSO';
 
@@ -39,13 +41,14 @@ type
   TDM_Contest = class(TDataModule)
     cnxContest: TZConnection;
     INSQSOs: TZQuery;
+    qsoscallr: TStringField;
+    qsoscalls: TStringField;
     qsosconfirmed: TLongintField;
     qsosexchr: TLongintField;
     qsosexchs: TLongintField;
     qsosfreq: TStringField;
     qsosidQSO: TLongintField;
     qsospoints: TLongintField;
-    qsosqcall: TStringField;
     qsosqdate: TStringField;
     qsosqmode: TStringField;
     qsosqTime: TStringField;
@@ -81,13 +84,14 @@ type
     qStationByCallOperators: TStringField;
     qStationByCallsoapbox: TMemoField;
     SELQSOs: TZQuery;
+    SELQSOscallr: TStringField;
+    SELQSOscalls: TStringField;
     SELQSOsconfirmed: TLargeintField;
     SELQSOsexchr: TLargeintField;
     SELQSOsexchs: TLargeintField;
     SELQSOsfreq: TStringField;
     SELQSOsidQSO: TLargeintField;
     SELQSOspoints: TLargeintField;
-    SELQSOsqcall: TStringField;
     SELQSOsqdate: TStringField;
     SELQSOsqmode: TStringField;
     SELQSOsqtime: TStringField;
@@ -162,7 +166,8 @@ type
      conName
     ,conYear
     , cfgPath
-    , logPath: string;
+    , logPath
+    , fileProcess: string;
      dateStart
      ,dateFinish: TDate;
      timeStart
@@ -213,6 +218,9 @@ begin
   with DataSet do
   begin
     qsosrefStation.asInteger:= 0;
+    qsospoints.asInteger:= 0;
+    qsosrefItuCallSign.AsInteger:= 0;
+    qsost.AsInteger:= 0;
   end;
 end;
 
@@ -318,9 +326,40 @@ end;
 *** Insert LogFile in database
 *******************************************************************************)
 
-
 procedure TDM_Contest.processQSOData(rowData: string);
+var
+  splitRow: TStringList;
 begin
+  splitRow:= TStringList.Create;
+  try
+    splitRow.Delimiter:= ' ';
+    splitRow.StrictDelimiter:= false;
+    splitRow.DelimitedText:= rowData;
+    if splitRow.Count >= 10 then
+    begin
+      with qsos do
+      begin
+        Insert;
+        qsosfreq.asString:= splitRow [0];
+        qsosqmode.AsString:= splitRow [1];
+        qsosqdate.AsString:= splitRow [2];
+        qsosqTime.asString:= splitRow [3];
+        qsoscalls.asString:= splitRow [4];
+        qsosrsts.AsInteger:= strToIntDef (splitRow [5], 599);
+        qsosexchs.AsInteger:= strToIntDef (splitRow [6], -1);
+        qsoscallr.AsString:= splitRow [7];
+        qsosrstr.AsInteger:= strToIntDef (splitRow [8], 599);
+        qsosexchr.AsInteger:= strToIntDef (splitRow [9], -1);
+        qsosconfirmed.asInteger:= QSO_NOT_CONFIRMED;
+        qsospoints.AsInteger:= 0;
+        Post;
+      end;
+    end
+    else
+      DM_General.EventLog.Error('Error fields counter QSO: ' + rowData + ' FILE: ' + fileProcess );
+  finally
+    splitRow.Free;
+  end;
 
 end;
 
@@ -338,7 +377,7 @@ begin
       begin
         FieldByName(fieldName).asInteger:= StrToIntDef(rowData, -1);
         if StrToIntDef(rowData, -1) = -1 then
-          DM_General.EventLog.Error('Error casting: ' + rowLabel + ' Data: '+ rowData);
+          DM_General.EventLog.Error('Error casting: ' + rowLabel + ' Data: '+ rowData + ' FILE: ' + fileProcess );
       end
       else
         FieldByName(fieldName).AsString:= FieldByName(fieldName).AsString + Trim(rowData);
@@ -346,7 +385,7 @@ begin
     end;
   end
   else
-   DM_General.EventLog.Warning('Label unknow: ' + rowLabel);
+   DM_General.EventLog.Warning('Label unknow: ' + rowLabel + ' FILE: ' + fileProcess);
 end;
 
 
@@ -439,6 +478,7 @@ var
   aLine: string;
 begin
   AssignFile(fileLog, aLogFile);
+  fileProcess:= aLogFile;
   try
    Reset(fileLog);
    While Not EOF(fileLog) do

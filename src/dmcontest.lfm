@@ -59,9 +59,10 @@ object DM_Contest: TDM_Contest
       ', qmode varchar (5)'
       ', qdate varchar (10)'
       ', qtime varchar (5)'
+      ', calls varchar (20) '
       ', rsts integer default 0'
       ', exchs integer default 0'
-      ', qcall varchar (20)'
+      ', callr varchar(20)'
       ', rstr integer default 0'
       ', exchr integer default 0'
       ', t integer default 0'
@@ -589,6 +590,12 @@ object DM_Contest: TDM_Contest
         Size = 5
       end    
       item
+        Name = 'calls'
+        DataType = ftString
+        Precision = 0
+        Size = 20
+      end    
+      item
         Name = 'rsts'
         DataType = ftInteger
         Precision = 0
@@ -601,7 +608,7 @@ object DM_Contest: TDM_Contest
         Size = 0
       end    
       item
-        Name = 'qcall'
+        Name = 'callr'
         DataType = ftString
         Precision = 0
         Size = 20
@@ -710,11 +717,21 @@ object DM_Contest: TDM_Contest
       Required = False
       Size = 5
     end
+    object qsoscalls: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'calls'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
     object qsosrsts: TLongintField
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'rsts'
-      Index = 6
+      Index = 7
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -724,17 +741,17 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'exchs'
-      Index = 7
+      Index = 8
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
       Required = False
     end
-    object qsosqcall: TStringField
+    object qsoscallr: TStringField
       DisplayWidth = 20
       FieldKind = fkData
-      FieldName = 'qcall'
-      Index = 8
+      FieldName = 'callr'
+      Index = 9
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -744,7 +761,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'rstr'
-      Index = 9
+      Index = 10
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -754,7 +771,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'exchr'
-      Index = 10
+      Index = 11
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -764,7 +781,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 't'
-      Index = 11
+      Index = 12
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -774,7 +791,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'confirmed'
-      Index = 12
+      Index = 13
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -784,7 +801,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'points'
-      Index = 13
+      Index = 14
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -794,7 +811,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'refItuCallSign'
-      Index = 14
+      Index = 15
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -1419,16 +1436,11 @@ object DM_Contest: TDM_Contest
     Connection = cnxContest
     SQL.Strings = (
       'INSERT INTO stations'
-      '(idStation, callsign , cAssisted , cBand  , cMode  , cOper  , cPower  , cStation  , cTime  , cOverlay  , claimedScore , club  , contest  , createdBy  , email  , location  , name  , address  , acity  , aStateProv  , aPostalCode  , aCountry  , Operators  , offtime  , soapbox, cTransmitter )'
+      '( callsign , cAssisted , cBand  , cMode  , cOper  , cPower  , cStation  , cTime  , cOverlay  , claimedScore , club  , contest  , createdBy  , email  , location  , name  , address  , acity  , aStateProv  , aPostalCode  , aCountry  , Operators  , offtime  , soapbox, cTransmitter )'
       'VALUES'
-      '(:idStation, :callsign , :cAssisted , :cBand  , :cMode  , :cOper  , :cPower  , :cStation  , :cTime  , :cOverlay  , :claimedScore , :club  , :contest  , :createdBy  , :email  , :location  , :name  , :address  , :acity  , :aStateProv  , :aPostalCode  , :aCountry  , :Operators  , :offtime  , :soapbox, :cTransmitter )'
+      '( :callsign , :cAssisted , :cBand  , :cMode  , :cOper  , :cPower  , :cStation  , :cTime  , :cOverlay  , :claimedScore , :club  , :contest  , :createdBy  , :email  , :location  , :name  , :address  , :acity  , :aStateProv  , :aPostalCode  , :aCountry  , :Operators  , :offtime  , :soapbox, :cTransmitter )'
     )
     Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'idStation'
-        ParamType = ptUnknown
-      end    
       item
         DataType = ftUnknown
         Name = 'callsign'
@@ -1557,11 +1569,6 @@ object DM_Contest: TDM_Contest
     left = 48
     top = 168
     ParamData = <    
-      item
-        DataType = ftUnknown
-        Name = 'idStation'
-        ParamType = ptUnknown
-      end    
       item
         DataType = ftUnknown
         Name = 'callsign'
@@ -2088,22 +2095,11 @@ object DM_Contest: TDM_Contest
       ReadOnly = False
       Required = False
     end
-    object SELQSOsqcall: TStringField
-      DisplayWidth = 80
-      FieldKind = fkData
-      FieldName = 'qcall'
-      Index = 8
-      LookupCache = False
-      ProviderFlags = [pfInUpdate, pfInWhere]
-      ReadOnly = False
-      Required = False
-      Size = 80
-    end
     object SELQSOsrstr: TLargeintField
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'rstr'
-      Index = 9
+      Index = 8
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -2113,7 +2109,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'exchr'
-      Index = 10
+      Index = 9
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -2123,7 +2119,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 't'
-      Index = 11
+      Index = 10
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -2133,7 +2129,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'confirmed'
-      Index = 12
+      Index = 11
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -2143,7 +2139,7 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'points'
-      Index = 13
+      Index = 12
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -2153,28 +2149,45 @@ object DM_Contest: TDM_Contest
       DisplayWidth = 1020
       FieldKind = fkData
       FieldName = 'refItuCallSign'
-      Index = 14
+      Index = 13
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
       Required = False
       Size = 1020
     end
+    object SELQSOscallr: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'callr'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object SELQSOscalls: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'calls'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
   end
   object INSQSOs: TZQuery
     Connection = cnxContest
     SQL.Strings = (
       'INSERT INTO qsos'
-      '(idQSO , refStation  , freq  , qmode , qdate , qtime  , rsts , exchsr , qcall  , rstr  , exchr  , t  , confirmed  , points  , refItuCallSign)'
+      '(refStation  , freq  , qmode , qdate , qtime, calls  , rsts , exchs , callr  , rstr  , exchr  , t  , confirmed  , points  , refItuCallSign)'
       'VALUES'
-      '(:idQSO , :refStation  , :freq  , :qmode , :qdate , :qtime  , :rsts , :exchsr , :qcall  , :rstr  , :exchr  , :t  , :confirmed  , :points  , :refItuCallSign)'
+      '( :refStation  , :freq  , :qmode , :qdate , :qtime, :calls  , :rsts , :exchs , :callr, :rstr  , :exchr  , :t  , :confirmed  , :points  , :refItuCallSign)'
     )
     Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'idQSO'
-        ParamType = ptUnknown
-      end    
       item
         DataType = ftUnknown
         Name = 'refStation'
@@ -2202,17 +2215,22 @@ object DM_Contest: TDM_Contest
       end    
       item
         DataType = ftUnknown
+        Name = 'calls'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
         Name = 'rsts'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'exchsr'
+        Name = 'exchs'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'qcall'
+        Name = 'callr'
         ParamType = ptUnknown
       end    
       item
@@ -2250,11 +2268,6 @@ object DM_Contest: TDM_Contest
     ParamData = <    
       item
         DataType = ftUnknown
-        Name = 'idQSO'
-        ParamType = ptUnknown
-      end    
-      item
-        DataType = ftUnknown
         Name = 'refStation'
         ParamType = ptUnknown
       end    
@@ -2280,17 +2293,22 @@ object DM_Contest: TDM_Contest
       end    
       item
         DataType = ftUnknown
+        Name = 'calls'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
         Name = 'rsts'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'exchsr'
+        Name = 'exchs'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'qcall'
+        Name = 'callr'
         ParamType = ptUnknown
       end    
       item
@@ -2334,9 +2352,10 @@ object DM_Contest: TDM_Contest
       ', qmode  = :qmode '
       ', qdate  = :qdate '
       ' , qtime  = :qtime  '
+      ', calls = :calls'
       ', rsts   = :rsts '
-      ', exchsr  = :exchsr '
-      ' , qcall    = :qcall '
+      ', exchs  = :exchs '
+      ' , callr    = :callr '
       ', rstr   = :rstr '
       ' , exchr   = :exchr '
       ' , t    = :t '
@@ -2373,17 +2392,22 @@ object DM_Contest: TDM_Contest
       end    
       item
         DataType = ftUnknown
+        Name = 'calls'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
         Name = 'rsts'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'exchsr'
+        Name = 'exchs'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'qcall'
+        Name = 'callr'
         ParamType = ptUnknown
       end    
       item
@@ -2451,17 +2475,22 @@ object DM_Contest: TDM_Contest
       end    
       item
         DataType = ftUnknown
+        Name = 'calls'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
         Name = 'rsts'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'exchsr'
+        Name = 'exchs'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'qcall'
+        Name = 'callr'
         ParamType = ptUnknown
       end    
       item

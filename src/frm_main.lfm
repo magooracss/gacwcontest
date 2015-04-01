@@ -52,9 +52,9 @@ object frmMain: TfrmMain
       Left = 24
       Height = 17
       Top = 41
-      Width = 7
+      Width = 12
       AutoSize = True
-      Caption = '0'
+      Caption = '...'
       Font.CharSet = ANSI_CHARSET
       Font.Height = -13
       Font.Name = 'Arial'
@@ -147,5 +147,10 @@ object frmMain: TfrmMain
     Filter = 'Cabrillo (*.cbr)|*.cbr|All Files (*.*)|*.*'
     left = 301
     top = 144
+  end
+  object DataSource1: TDataSource
+    DataSet = DM_Contest.qsos
+    left = 323
+    top = 227
   end
 end
