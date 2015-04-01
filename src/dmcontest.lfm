@@ -9,9 +9,9 @@ object DM_Contest: TDM_Contest
     ControlsCodePage = cCP_UTF8
     AutoEncodeStrings = False
     Properties.Strings = (
-      'AutoEncodeStrings='
+      'AutoEncodeStrings=ON'
     )
-    Connected = True
+    TransactIsolationLevel = tiReadUncommitted
     Port = 0
     Database = 'C:\magoo\test\contest.db3'
     Protocol = 'sqlite-3'
@@ -49,7 +49,7 @@ object DM_Contest: TDM_Contest
       ', aCountry varchar (200)'
       ', Operators varchar(200)'
       ', offtime varchar (35)'
-      ', soapbox text'
+      ', soapbox varchar(3000)'
       ');'
       ''
       'CREATE TABLE qsos'
@@ -265,6 +265,7 @@ object DM_Contest: TDM_Contest
         Precision = 0
         Size = 50
       end>
+    AfterInsert = stationsAfterInsert
     PacketRecords = 0
     left = 48
     top = 32
@@ -820,7 +821,6 @@ object DM_Contest: TDM_Contest
   end
   object qStationByCall: TZQuery
     Connection = cnxContest
-    Active = True
     SQL.Strings = (
       'SELECT *'
       'FROM stations'
@@ -1101,33 +1101,31 @@ object DM_Contest: TDM_Contest
       Required = False
       Size = 140
     end
-    object qStationByCallsoapbox: TMemoField
-      DisplayWidth = 10
-      FieldKind = fkData
-      FieldName = 'soapbox'
-      Index = 24
-      LookupCache = False
-      ProviderFlags = [pfInUpdate, pfInWhere]
-      ReadOnly = False
-      Required = False
-      BlobType = ftBlob
-      Transliterate = False
-    end
     object qStationByCallcTransmitter: TStringField
       DisplayWidth = 200
       FieldKind = fkData
       FieldName = 'cTransmitter'
-      Index = 25
+      Index = 24
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
       Required = False
       Size = 200
     end
+    object qStationByCallsoapbox: TStringField
+      DisplayWidth = 12000
+      FieldKind = fkData
+      FieldName = 'soapbox'
+      Index = 25
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 12000
+    end
   end
   object SELStations: TZQuery
     Connection = cnxContest
-    Active = True
     SQL.Strings = (
       'SELECT *'
       'FROM stations'
@@ -1408,37 +1406,36 @@ object DM_Contest: TDM_Contest
       Required = False
       Size = 140
     end
-    object SELStationssoapbox: TMemoField
-      DisplayWidth = 10
-      FieldKind = fkData
-      FieldName = 'soapbox'
-      Index = 24
-      LookupCache = False
-      ProviderFlags = [pfInUpdate, pfInWhere]
-      ReadOnly = False
-      Required = False
-      BlobType = ftBlob
-      Transliterate = False
-    end
     object SELStationscTransmitter: TStringField
       DisplayWidth = 200
       FieldKind = fkData
       FieldName = 'cTransmitter'
-      Index = 25
+      Index = 24
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
       Required = False
       Size = 200
     end
+    object SELStationssoapbox: TStringField
+      DisplayWidth = 12000
+      FieldKind = fkData
+      FieldName = 'soapbox'
+      Index = 25
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 12000
+    end
   end
   object INSstations: TZQuery
     Connection = cnxContest
     SQL.Strings = (
       'INSERT INTO stations'
-      '( callsign , cAssisted , cBand  , cMode  , cOper  , cPower  , cStation  , cTime  , cOverlay  , claimedScore , club  , contest  , createdBy  , email  , location  , name  , address  , acity  , aStateProv  , aPostalCode  , aCountry  , Operators  , offtime  , soapbox, cTransmitter )'
+      '( callsign , cAssisted , cBand  , cMode  , cOper  , cPower  , cStation  , cTime  , cOverlay  , claimedScore , club  , contest  , createdBy  , email  , location  , name  , address  , acity  , aStateProv  , aPostalCode  , aCountry  , Operators  , offtime  , cTransmitter, soapbox )'
       'VALUES'
-      '( :callsign , :cAssisted , :cBand  , :cMode  , :cOper  , :cPower  , :cStation  , :cTime  , :cOverlay  , :claimedScore , :club  , :contest  , :createdBy  , :email  , :location  , :name  , :address  , :acity  , :aStateProv  , :aPostalCode  , :aCountry  , :Operators  , :offtime  , :soapbox, :cTransmitter )'
+      '( :callsign , :cAssisted , :cBand  , :cMode  , :cOper  , :cPower  , :cStation  , :cTime  , :cOverlay  , :claimedScore , :club  , :contest  , :createdBy  , :email  , :location  , :name  , :address  , :acity  , :aStateProv  , :aPostalCode  , :aCountry  , :Operators  , :offtime  ,  :cTransmitter, :soapbox  )'
     )
     Params = <    
       item
@@ -1558,12 +1555,12 @@ object DM_Contest: TDM_Contest
       end    
       item
         DataType = ftUnknown
-        Name = 'soapbox'
+        Name = 'cTransmitter'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'cTransmitter'
+        Name = 'soapbox'
         ParamType = ptUnknown
       end>
     left = 48
@@ -1686,12 +1683,12 @@ object DM_Contest: TDM_Contest
       end    
       item
         DataType = ftUnknown
-        Name = 'soapbox'
+        Name = 'cTransmitter'
         ParamType = ptUnknown
       end    
       item
         DataType = ftUnknown
-        Name = 'cTransmitter'
+        Name = 'soapbox'
         ParamType = ptUnknown
       end>
   end

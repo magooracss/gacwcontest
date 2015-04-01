@@ -62,6 +62,7 @@ type
 
     procedure CargarParametros (var laConsulta: TzQuery; var laTabla: TRxMemoryData);
     procedure GrabarDatos(var BuscarID, Insertar, Modificar: TZQuery; var Datos: TRxMemoryData; campoId: string );
+    procedure SaveINSData (var qINS: TZQuery; var Datos: TRxMemoryData );
     procedure BorrarDatos (var Consulta: TZQuery; var lista: TStrHolder);
 
     function CampoTUG (var Consulta: TZQuery; CampoId, CampoVisible: string; Indice: integer): string;
@@ -309,7 +310,10 @@ begin
   for indice:= 0 to laConsulta.Params.Count -1 do
   begin
     laConsulta.Params[indice].DataType:= laTabla.fieldByName(laConsulta.Params[indice].Name).DataType;
-//    if NOT laTabla.fieldByName(laConsulta.Params[indice].Name).IsNull then
+    if  (laTabla.fieldByName(laConsulta.Params[indice].Name).IsNull) and
+          (laConsulta.Params[indice].DataType = ftString) then
+        laConsulta.Params[indice].value:= '--'
+    else
       if (laTabla.fieldByName(laConsulta.Params[indice].Name).IsNull) and
           (laConsulta.Params[indice].DataType = ftDate) then
          laConsulta.Params[indice].value:= 0
@@ -342,6 +346,17 @@ begin
    Datos.Next;
  end;
 
+end;
+
+procedure TDM_General.SaveINSData(var qINS: TZQuery; var Datos: TRxMemoryData);
+begin
+  Datos.First;
+  while (NOT Datos.Eof) do
+  begin
+    CargarParametros(qINS, Datos);
+    qINS.ExecSQL;
+    Datos.Next;
+  end;
 end;
 
 procedure TDM_General.BorrarDatos(var Consulta: TZQuery; var lista: TStrHolder);

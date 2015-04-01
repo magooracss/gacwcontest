@@ -82,7 +82,7 @@ type
     qStationByCallname: TStringField;
     qStationByCallofftime: TStringField;
     qStationByCallOperators: TStringField;
-    qStationByCallsoapbox: TMemoField;
+    qStationByCallsoapbox: TStringField;
     SELQSOs: TZQuery;
     SELQSOscallr: TStringField;
     SELQSOscalls: TStringField;
@@ -125,7 +125,7 @@ type
     SELStationsname: TStringField;
     SELStationsofftime: TStringField;
     SELStationsOperators: TStringField;
-    SELStationssoapbox: TMemoField;
+    SELStationssoapbox: TStringField;
     stations: TRxMemoryData;
     qsos: TRxMemoryData;
     sqlNewContest: TZSQLProcessor;
@@ -162,6 +162,7 @@ type
     UPDQSOs: TZQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure qsosAfterInsert(DataSet: TDataSet);
+    procedure stationsAfterInsert(DataSet: TDataSet);
   private
      conName
     ,conYear
@@ -221,6 +222,35 @@ begin
     qsospoints.asInteger:= 0;
     qsosrefItuCallSign.AsInteger:= 0;
     qsost.AsInteger:= 0;
+  end;
+end;
+
+procedure TDM_Contest.stationsAfterInsert(DataSet: TDataSet);
+begin
+  with DataSet do
+  begin
+    stationsidStation.AsInteger:= 0;
+    stationscallsign.AsString:= EmptyStr;
+    stationssoapbox.AsString:= EmptyStr;
+    stationscAssisted.AsString:= EmptyStr;
+    stationscBand.AsString:= EmptyStr;
+    stationscOper.AsString:= EmptyStr;
+    stationscPower.AsString:= EmptyStr;
+    stationscStation.AsString:= EmptyStr;
+    stationscTime.AsString:= EmptyStr;
+    stationsclaimedScore.asInteger:= 0;
+    stationsclub.AsString:= EmptyStr;
+    stationscreatedBy.AsString:= EmptyStr;
+    stationsemail.AsString:= EmptyStr;
+    stationslocation.AsString:= EmptyStr;
+    stationsname.AsString:= EmptyStr;
+    stationsaddress.AsString:= EmptyStr;
+    stationsacity.AsString:= EmptyStr;
+    stationsaStateProv.AsString:= EmptyStr;
+    stationsaCountry.AsString:= EmptyStr;
+    stationsoperators.AsString:= EmptyStr;
+    stationsofftime.AsString:= EmptyStr;
+    stationscTransmitter.AsString:= EmptyStr;
   end;
 end;
 
@@ -401,7 +431,8 @@ begin
   if UpperCase(Trim(rowLabel)) = LB_qso then
     processQSOData(rowData)
   else
-    processStationData (rowLabel, rowData);
+   if TRIM (rowLabel) <> EmptyStr then
+     processStationData (rowLabel, rowData);
 end;
 
 procedure TDM_Contest.GenerateDictionary;
@@ -423,7 +454,8 @@ procedure TDM_Contest.saveDB;
 var
   id: integer;
 begin
-   DM_General.GrabarDatos(SELStations, INSstations, UPDStations, stations, 'idStation');
+//   DM_General.GrabarDatos(SELStations, INSstations, UPDStations, stations, 'idStation');
+  DM_General.SaveINSData(INSstations, stations);
 
    //lastID from last station saved
    with qStationByCall do
@@ -456,7 +488,8 @@ begin
      end;
    end;
 
-   DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
+   //DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
+   DM_General.SaveINSData(INSQSOs, qsos);
 
 end;
 
@@ -479,6 +512,7 @@ var
 begin
   AssignFile(fileLog, aLogFile);
   fileProcess:= aLogFile;
+
   try
    Reset(fileLog);
    While Not EOF(fileLog) do
@@ -486,12 +520,14 @@ begin
      Readln(fileLog, aLine);
      analizeLine(aLine);
    end;
+
    if LogLoaded (stationscallsign.AsString) then
     DM_General.EventLog.Error('Station: ' + stationscallsign.AsString
                               + ' file ' + aLogFile
                               + 'already exists in DB')
    else
      SaveDB;
+
   finally
     CloseFile(fileLog);
   end;
@@ -504,6 +540,8 @@ begin
   If FindFirst (logPath+'\*.*',faArchive, fileSearch)=0 then
   begin
     Repeat
+       DM_General.ReiniciarTabla(stations);
+       DM_General.ReiniciarTabla(qsos);
        stations.Insert;
        analizeFile(logPath+'\'+fileSearch.Name);
     Until FindNext(fileSearch)<>0;

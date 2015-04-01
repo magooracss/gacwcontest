@@ -34,7 +34,7 @@ CREATE TABLE stations
 , aCountry varchar (200)
 , Operators varchar(200)
 , offtime varchar (35)
-, soapbox text
+, soapbox varchar(3000)
 );
 
 CREATE TABLE qsos

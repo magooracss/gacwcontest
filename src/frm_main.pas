@@ -17,7 +17,6 @@ type
     conAddFileLog: TAction;
     conAddFolderLogs: TAction;
     contLoad: TAction;
-    DataSource1: TDataSource;
     txLog: TMemo;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -116,6 +115,7 @@ procedure TfrmMain.conAddFolderLogsExecute(Sender: TObject);
 begin
   DM_Contest.analizeLogDir;
   RefreshLog;
+  ShowMessage('Process finished');
 end;
 
 procedure TfrmMain.conAddFileLogExecute(Sender: TObject);
@@ -123,6 +123,7 @@ begin
   if selLog.Execute then
     DM_Contest.analizeFile(selLog.FileName);
   RefreshLog;
+  ShowMessage('Process finished');
 end;
 
 
