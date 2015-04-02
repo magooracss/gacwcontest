@@ -132,8 +132,10 @@ end;
 
 
 procedure TfrmMain.conCalcScoresExecute(Sender: TObject);
+
 begin
   DM_Contest.CalculateScores;
+  ShowMessage('The scores have been calculated');
 end;
 
 

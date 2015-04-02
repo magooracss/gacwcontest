@@ -31,6 +31,7 @@ const
   QSO_NOT_CONFIRMED = 0;
   QSO_CONFIRMED = 1;
   QSO_MAYBE = 2; //For logs have not received to match
+  QSO_INVALID = 3; //The Qso matched, but it wasn't pass the validations (Date, time, freq, etc)
 
   //Labels from Cabrillo
   LB_qso = 'QSO';
@@ -69,6 +70,23 @@ type
     qAllStationsofftime: TStringField;
     qAllStationsOperators: TStringField;
     qAllStationssoapbox: TStringField;
+    qPairedQSO: TZQuery;
+    qPairedQSOcallr: TStringField;
+    qPairedQSOcalls: TStringField;
+    qPairedQSOconfirmed: TLargeintField;
+    qPairedQSOexchr: TLargeintField;
+    qPairedQSOexchs: TLargeintField;
+    qPairedQSOfreq: TStringField;
+    qPairedQSOidQSO: TLargeintField;
+    qPairedQSOpoints: TLargeintField;
+    qPairedQSOqdate: TStringField;
+    qPairedQSOqmode: TStringField;
+    qPairedQSOqtime: TStringField;
+    qPairedQSOrefItuCallSign: TStringField;
+    qPairedQSOrefStation: TLargeintField;
+    qPairedQSOrstr: TLargeintField;
+    qPairedQSOrsts: TLargeintField;
+    qPairedQSOt: TLargeintField;
     qsoscallr: TStringField;
     qsoscalls: TStringField;
     qsosconfirmed: TLongintField;
@@ -204,6 +222,7 @@ type
     qStationByCall: TZQuery;
     SELStations: TZQuery;
     INSstations: TZQuery;
+    qResetConfirmed: TZQuery;
     UPDStations: TZQuery;
     UPDQSOs: TZQuery;
     procedure DataModuleCreate(Sender: TObject);
@@ -227,6 +246,9 @@ type
      procedure GenerateDictionary;
 
      procedure ProcessQSOsNoPartner;
+     procedure ProcessQSOsConfirmed;
+     procedure LoadQSOByStationID(stationID: integer);
+     function ValidContact: boolean;
 
   public
    LabelsField: TStringList;
@@ -260,7 +282,8 @@ var
 implementation
 {$R *.lfm}
 uses
-  forms;
+  forms
+  ,dateutils;
 
 { TDM_Contest }
 
@@ -420,14 +443,14 @@ begin
       with qsos do
       begin
         Insert;
-        qsosfreq.asString:= splitRow [0];
-        qsosqmode.AsString:= splitRow [1];
-        qsosqdate.AsString:= splitRow [2];
-        qsosqTime.asString:= splitRow [3];
-        qsoscalls.asString:= splitRow [4];
+        qsosfreq.asString:= UpperCase(Trim(splitRow [0]));
+        qsosqmode.AsString:= UpperCase(Trim(splitRow [1]));
+        qsosqdate.AsString:= UpperCase(Trim(splitRow [2]));
+        qsosqTime.asString:= UpperCase(Trim(splitRow [3]));
+        qsoscalls.asString:= UpperCase(Trim(splitRow [4]));
         qsosrsts.AsInteger:= strToIntDef (splitRow [5], 599);
         qsosexchs.AsInteger:= strToIntDef (splitRow [6], -1);
-        qsoscallr.AsString:= splitRow [7];
+        qsoscallr.AsString:= UpperCase(Trim(splitRow [7]));
         qsosrstr.AsInteger:= strToIntDef (splitRow [8], 599);
         qsosexchr.AsInteger:= strToIntDef (splitRow [9], -1);
         qsosconfirmed.asInteger:= QSO_NOT_CONFIRMED;
@@ -460,7 +483,7 @@ begin
           DM_General.EventLog.Error('Error casting: ' + rowLabel + ' Data: '+ rowData + ' FILE: ' + fileProcess );
       end
       else
-        FieldByName(fieldName).AsString:= FieldByName(fieldName).AsString + Trim(rowData);
+        FieldByName(fieldName).AsString:= FieldByName(fieldName).AsString + UpperCase(Trim(rowData));
       Post;
     end;
   end
@@ -604,45 +627,116 @@ end;
 //QSOs without a partner
 procedure TDM_Contest.ProcessQSOsNoPartner;
 begin
+  qStationByCall.Close;
+  qStationByCall.ParamByName('callsign').AsString:= TRIM(UpperCase(qsoscallr.asString));
+  qStationByCall.Open;
+  if (qStationByCall.RecordCount = 0) then
+  begin
+     qsos.Edit;
+     qsosconfirmed.AsInteger:= QSO_MAYBE;
+     qsos.Post;
+  end;
+end;
+
+function TDM_Contest.ValidContact: boolean;
+const
+  _TOLERANCE = 10; //minutes
+var
+  dateSender, dateReceiver
+  ,datediff: TDateTime;
+  ResOK: Boolean;
+  firstComp:integer;
+  dt: TFormatSettings;
+begin
+  ResOK:= false;
+  dt.ShortDateFormat:= 'YYYY-MM-DD';
+  dt.DateSeparator:= '-';
+  dt.LongDateFormat:= 'YYYY-MM-DD HHMM';
+  dt.LongTimeFormat:= 'HHMM';
+  dt.ShortTimeFormat:= 'HHMM';
+  dt.TimeSeparator:=':';
+  dateSender:= StrToDate(qsosqdate.AsString, dt)
+               + StrToTime(Copy (qsosqTime.AsString, 1,2)
+               +':'+Copy(qsosqTime.AsString, 3,2), dt);
+  dateReceiver:=  StrToDate(qPairedQSOqdate.AsString, dt)
+                  + StrToTime(Copy (qPairedQSOqtime.AsString, 1,2)
+                  +':'+Copy(qPairedQSOqtime.AsString, 3,2), dt);
+  firstComp:= CompareDateTime(dateSender, dateReceiver);
+  if firstComp = 0 then
+   ResOK := true
+  else
+    if firstComp < 0 then
+    begin //dateSender < dateReceiver
+      dateSender:= IncMinute(dateSender,_TOLERANCE);
+      dateReceiver:= IncMinute(dateReceiver,(_TOLERANCE * -1));
+      ResOK:= (CompareDateTime(dateSender, dateReceiver) > 0);
+    end
+    else
+    begin //dateSender > dateReceiver
+      dateSender:= IncMinute(dateSender,(_TOLERANCE * -1));
+      dateReceiver:= IncMinute(dateReceiver,_TOLERANCE);
+      ResOK:= (CompareDateTime(dateSender, dateReceiver) < 0);
+    end;
+    Result:= ResOK;
+end;
+
+procedure TDM_Contest.ProcessQSOsConfirmed;
+var
+  stateQ: integer;
+begin
+  with qPairedQSO do
+  begin
+    if active then close;
+    ParamByName('calls').AsString:= Trim(qsoscallr.AsString);
+    ParamByName('callr').AsString:= Trim(qsoscalls.AsString);
+    Open;
+    stateQ:= QSO_INVALID;
+    if (RecordCount > 0) then
+    begin
+      if ValidContact then
+       stateQ:= QSO_CONFIRMED;
+    end;
+    qsos.Edit;
+    qsosconfirmed.AsInteger:= stateQ;
+    qsos.Post;
+  end;
+end;
+
+
+procedure TDM_Contest.LoadQSOByStationID(stationID: integer);
+begin
   DM_General.ReiniciarTabla(qsos);
   with qQSOByStation do
   begin
     if active then close;
-    ParamByName('station').asInteger:= qAllStationsidStation.AsInteger;
+    ParamByName('station').asInteger:= stationID;
     Open;
     qsos.LoadFromDataSet(qQSOByStation, 0, lmAppend);
     Close;
   end;
-  with qsos do
-  begin
-    First;
-    While Not EOF do
-    begin
-      qStationByCall.Close;
-      qStationByCall.ParamByName('callsign').AsString:= TRIM(UpperCase(qsoscallr.asString));
-      qStationByCall.Open;
-      if (qStationByCall.RecordCount = 0) then
-      begin
-        Edit;
-        qsosconfirmed.AsInteger:= QSO_MAYBE;
-        Post;
-      end;
-      Next;
-    end;
-    DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
-  end;
 end;
+
 
 procedure TDM_Contest.CalculateScores;
 begin
+  qResetConfirmed.ExecSQL;
   with qAllStations do
   begin
     if active then close;
     open;
     while not EOF do
     begin
-      ProcessQSOsNoPartner;
-      Next;
+      LoadQSOByStationID(qAllStationsidStation.AsInteger);
+      qsos.First;
+      While Not qsos.EOF do
+      begin
+        ProcessQSOsNoPartner;
+        if qsosconfirmed.AsInteger = 0 then
+          ProcessQSOsConfirmed;
+        qsos.Next;
+      end;
+      DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
+      Next;//NextStation
     end;
   end;
 end;

@@ -823,7 +823,7 @@ object DM_Contest: TDM_Contest
     SQL.Strings = (
       'SELECT *'
       'FROM stations'
-      'WHERE UPPER(callsign) LIKE UPPER(:callsign)'
+      'WHERE callsign LIKE :callsign'
     )
     Params = <    
       item
@@ -2823,7 +2823,7 @@ object DM_Contest: TDM_Contest
     SQL.Strings = (
       'SELECT *'
       'FROM qsos'
-      'WHERE (refStation = :station)'
+      'WHERE (refStation =  :station)'
       '             and (confirmed = 0)'
     )
     Params = <    
@@ -2995,6 +2995,215 @@ object DM_Contest: TDM_Contest
       Size = 80
     end
     object SELQSOscalls2: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'calls'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+  end
+  object qResetConfirmed: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'UPDATE QSOs'
+      'SET  confirmed    = 0'
+      ''
+    )
+    Params = <>
+    left = 280
+    top = 104
+  end
+  object qPairedQSO: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'SELECT *'
+      'FROM qsos'
+      'WHERE (calls LIKE :calls)'
+      '             and (callr LIKE :callr)'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'calls'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'callr'
+        ParamType = ptUnknown
+      end>
+    left = 280
+    top = 168
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'calls'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'callr'
+        ParamType = ptUnknown
+      end>
+    object qPairedQSOidQSO: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'idQSO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOrefStation: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'refStation'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOfreq: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'freq'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qPairedQSOqmode: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'qmode'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOqdate: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'qdate'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qPairedQSOqtime: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'qtime'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOrsts: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'rsts'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOexchs: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'exchs'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOrstr: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'rstr'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOexchr: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'exchr'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOt: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 't'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOconfirmed: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'confirmed'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOpoints: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'points'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qPairedQSOrefItuCallSign: TStringField
+      DisplayWidth = 1020
+      FieldKind = fkData
+      FieldName = 'refItuCallSign'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1020
+    end
+    object qPairedQSOcallr: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'callr'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object qPairedQSOcalls: TStringField
       DisplayWidth = 80
       FieldKind = fkData
       FieldName = 'calls'
