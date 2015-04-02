@@ -29,6 +29,8 @@ const
   MSG_ERROR = 'ERROR';
 
   QSO_NOT_CONFIRMED = 0;
+  QSO_CONFIRMED = 1;
+  QSO_MAYBE = 2; //For logs have not received to match
 
   //Labels from Cabrillo
   LB_qso = 'QSO';
@@ -41,6 +43,32 @@ type
   TDM_Contest = class(TDataModule)
     cnxContest: TZConnection;
     INSQSOs: TZQuery;
+    qAllStationsacity: TStringField;
+    qAllStationsaCountry: TStringField;
+    qAllStationsaddress: TStringField;
+    qAllStationsaPostalCode: TStringField;
+    qAllStationsaStateProv: TStringField;
+    qAllStationscallsign: TStringField;
+    qAllStationscAssisted: TStringField;
+    qAllStationscBand: TStringField;
+    qAllStationsclaimedScore: TLargeintField;
+    qAllStationsclub: TStringField;
+    qAllStationscMode: TStringField;
+    qAllStationscontest: TStringField;
+    qAllStationscOper: TStringField;
+    qAllStationscOverlay: TStringField;
+    qAllStationscPower: TStringField;
+    qAllStationscreatedBy: TStringField;
+    qAllStationscStation: TStringField;
+    qAllStationscTime: TStringField;
+    qAllStationscTransmitter: TStringField;
+    qAllStationsemail: TStringField;
+    qAllStationsidStation: TLargeintField;
+    qAllStationslocation: TStringField;
+    qAllStationsname: TStringField;
+    qAllStationsofftime: TStringField;
+    qAllStationsOperators: TStringField;
+    qAllStationssoapbox: TStringField;
     qsoscallr: TStringField;
     qsoscalls: TStringField;
     qsosconfirmed: TLongintField;
@@ -84,22 +112,40 @@ type
     qStationByCallOperators: TStringField;
     qStationByCallsoapbox: TStringField;
     SELQSOs: TZQuery;
+    qAllStations: TZQuery;
+    qQSOByStation: TZQuery;
     SELQSOscallr: TStringField;
+    SELQSOscallr2: TStringField;
     SELQSOscalls: TStringField;
+    SELQSOscalls2: TStringField;
     SELQSOsconfirmed: TLargeintField;
+    SELQSOsconfirmed2: TLargeintField;
     SELQSOsexchr: TLargeintField;
+    SELQSOsexchr2: TLargeintField;
     SELQSOsexchs: TLargeintField;
+    SELQSOsexchs2: TLargeintField;
     SELQSOsfreq: TStringField;
+    SELQSOsfreq2: TStringField;
     SELQSOsidQSO: TLargeintField;
+    SELQSOsidQSO2: TLargeintField;
     SELQSOspoints: TLargeintField;
+    SELQSOspoints2: TLargeintField;
     SELQSOsqdate: TStringField;
+    SELQSOsqdate2: TStringField;
     SELQSOsqmode: TStringField;
+    SELQSOsqmode2: TStringField;
     SELQSOsqtime: TStringField;
+    SELQSOsqtime2: TStringField;
     SELQSOsrefItuCallSign: TStringField;
+    SELQSOsrefItuCallSign2: TStringField;
     SELQSOsrefStation: TLargeintField;
+    SELQSOsrefStation2: TLargeintField;
     SELQSOsrstr: TLargeintField;
+    SELQSOsrstr2: TLargeintField;
     SELQSOsrsts: TLargeintField;
+    SELQSOsrsts2: TLargeintField;
     SELQSOst: TLargeintField;
+    SELQSOst2: TLargeintField;
     SELStationsacity: TStringField;
     SELStationsaCountry: TStringField;
     SELStationsaddress: TStringField;
@@ -180,6 +226,8 @@ type
      procedure analizeLine (aLine: string);
      procedure GenerateDictionary;
 
+     procedure ProcessQSOsNoPartner;
+
   public
    LabelsField: TStringList;
    property contestName: string read conName write conName;
@@ -201,6 +249,8 @@ type
    procedure analizeFile (aLogFile: string);
    procedure saveDB;
    function LogLoaded (callsign: string): boolean;
+
+   procedure CalculateScores;
 
   end;
 
@@ -454,7 +504,6 @@ procedure TDM_Contest.saveDB;
 var
   id: integer;
 begin
-//   DM_General.GrabarDatos(SELStations, INSstations, UPDStations, stations, 'idStation');
   DM_General.SaveINSData(INSstations, stations);
 
    //lastID from last station saved
@@ -488,7 +537,6 @@ begin
      end;
    end;
 
-   //DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
    DM_General.SaveINSData(INSQSOs, qsos);
 
 end;
@@ -548,6 +596,57 @@ begin
   end;
   FindClose(fileSearch);
 end;
+
+(*******************************************************************************
+*** Calculate Scores
+********************************************************************************)
+
+//QSOs without a partner
+procedure TDM_Contest.ProcessQSOsNoPartner;
+begin
+  DM_General.ReiniciarTabla(qsos);
+  with qQSOByStation do
+  begin
+    if active then close;
+    ParamByName('station').asInteger:= qAllStationsidStation.AsInteger;
+    Open;
+    qsos.LoadFromDataSet(qQSOByStation, 0, lmAppend);
+    Close;
+  end;
+  with qsos do
+  begin
+    First;
+    While Not EOF do
+    begin
+      qStationByCall.Close;
+      qStationByCall.ParamByName('callsign').AsString:= TRIM(UpperCase(qsoscallr.asString));
+      qStationByCall.Open;
+      if (qStationByCall.RecordCount = 0) then
+      begin
+        Edit;
+        qsosconfirmed.AsInteger:= QSO_MAYBE;
+        Post;
+      end;
+      Next;
+    end;
+    DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
+  end;
+end;
+
+procedure TDM_Contest.CalculateScores;
+begin
+  with qAllStations do
+  begin
+    if active then close;
+    open;
+    while not EOF do
+    begin
+      ProcessQSOsNoPartner;
+      Next;
+    end;
+  end;
+end;
+
 
 end.
 

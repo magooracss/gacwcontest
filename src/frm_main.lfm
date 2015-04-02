@@ -107,6 +107,12 @@ object frmMain: TfrmMain
       ImageIndex = 18
       OnExecute = conAddFileLogExecute
     end
+    object conCalcScores: TAction
+      Category = 'Contest'
+      Caption = 'Calculate scores'
+      ImageIndex = 13
+      OnExecute = conCalcScoresExecute
+    end
   end
   object MainMenu1: TMainMenu
     Images = DM_General.ImgAcciones
@@ -134,6 +140,12 @@ object frmMain: TfrmMain
       end
       object MenuItem8: TMenuItem
         Action = conAddFileLog
+      end
+      object MenuItem9: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem10: TMenuItem
+        Action = conCalcScores
       end
     end
   end

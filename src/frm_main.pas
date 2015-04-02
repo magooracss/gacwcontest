@@ -14,9 +14,12 @@ type
   { TfrmMain }
 
   TfrmMain = class(TForm)
+    conCalcScores: TAction;
     conAddFileLog: TAction;
     conAddFolderLogs: TAction;
     contLoad: TAction;
+    MenuItem10: TMenuItem;
+    MenuItem9: TMenuItem;
     txLog: TMemo;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -38,6 +41,7 @@ type
     stPath: TStaticText;
     procedure conAddFileLogExecute(Sender: TObject);
     procedure conAddFolderLogsExecute(Sender: TObject);
+    procedure conCalcScoresExecute(Sender: TObject);
     procedure contLoadExecute(Sender: TObject);
     procedure contNewExecute(Sender: TObject);
     procedure prgExitExecute(Sender: TObject);
@@ -124,6 +128,12 @@ begin
     DM_Contest.analizeFile(selLog.FileName);
   RefreshLog;
   ShowMessage('Process finished');
+end;
+
+
+procedure TfrmMain.conCalcScoresExecute(Sender: TObject);
+begin
+  DM_Contest.CalculateScores;
 end;
 
 

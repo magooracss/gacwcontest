@@ -7,7 +7,6 @@ object DM_Contest: TDM_Contest
   Width = 662
   object cnxContest: TZConnection
     ControlsCodePage = cCP_UTF8
-    AutoEncodeStrings = False
     Properties.Strings = (
       'AutoEncodeStrings=ON'
     )
@@ -2525,5 +2524,486 @@ object DM_Contest: TDM_Contest
         Name = 'idQSO'
         ParamType = ptUnknown
       end>
+  end
+  object qAllStations: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'SELECT *'
+      'FROM stations'
+    )
+    Params = <>
+    left = 48
+    top = 400
+    object qAllStationsidStation: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'idStation'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qAllStationscallsign: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'callsign'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object qAllStationscAssisted: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cAssisted'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object qAllStationscBand: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cBand'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qAllStationscMode: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cMode'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qAllStationscOper: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cOper'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qAllStationscPower: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'cPower'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qAllStationscStation: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cStation'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object qAllStationscTime: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'cTime'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qAllStationscOverlay: TStringField
+      DisplayWidth = 60
+      FieldKind = fkData
+      FieldName = 'cOverlay'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 60
+    end
+    object qAllStationsclaimedScore: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'claimedScore'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qAllStationsclub: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'club'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationscontest: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'contest'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object qAllStationscreatedBy: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'createdBy'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationsemail: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'email'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationslocation: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'location'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+    object qAllStationsname: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'name'
+      Index = 16
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationsaddress: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'address'
+      Index = 17
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationsacity: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'acity'
+      Index = 18
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationsaStateProv: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'aStateProv'
+      Index = 19
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationsaPostalCode: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'aPostalCode'
+      Index = 20
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+    object qAllStationsaCountry: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'aCountry'
+      Index = 21
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationsOperators: TStringField
+      DisplayWidth = 800
+      FieldKind = fkData
+      FieldName = 'Operators'
+      Index = 22
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object qAllStationsofftime: TStringField
+      DisplayWidth = 140
+      FieldKind = fkData
+      FieldName = 'offtime'
+      Index = 23
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 140
+    end
+    object qAllStationssoapbox: TStringField
+      DisplayWidth = 12000
+      FieldKind = fkData
+      FieldName = 'soapbox'
+      Index = 24
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 12000
+    end
+    object qAllStationscTransmitter: TStringField
+      DisplayWidth = 200
+      FieldKind = fkData
+      FieldName = 'cTransmitter'
+      Index = 25
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 200
+    end
+  end
+  object qQSOByStation: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'SELECT *'
+      'FROM qsos'
+      'WHERE (refStation = :station)'
+      '             and (confirmed = 0)'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'station'
+        ParamType = ptUnknown
+      end>
+    left = 179
+    top = 304
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'station'
+        ParamType = ptUnknown
+      end>
+    object SELQSOsidQSO2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'idQSO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsrefStation2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'refStation'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsfreq2: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'freq'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object SELQSOsqmode2: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'qmode'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsqdate2: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'qdate'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object SELQSOsqtime2: TStringField
+      DisplayWidth = 20
+      FieldKind = fkData
+      FieldName = 'qtime'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsrsts2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'rsts'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsexchs2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'exchs'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsrstr2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'rstr'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsexchr2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'exchr'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOst2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 't'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsconfirmed2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'confirmed'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOspoints2: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'points'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object SELQSOsrefItuCallSign2: TStringField
+      DisplayWidth = 1020
+      FieldKind = fkData
+      FieldName = 'refItuCallSign'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1020
+    end
+    object SELQSOscallr2: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'callr'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object SELQSOscalls2: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'calls'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
   end
 end
