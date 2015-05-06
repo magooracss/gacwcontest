@@ -85,3 +85,28 @@ CREATE TABLE tugZones
 , zone varchar (200)
 );
 
+CREATE TABLE countryFile
+(
+  idCountryFile integer PRIMARY KEY	
+,  prefix	varchar(10)
+, country	varchar(100)
+, continent	varchar(20)
+, latitude	varchar(10)
+, longitude	varchar(10)
+, cq		integer default 0
+, itu		integer default 0
+);
+
+CREATE TABLE specialStations
+(
+  idSpecialStation integer PRIMARY KEY	
+, countryFile_id integer default 0
+, prefix	varchar(10)
+, country	varchar(100)
+, continent	varchar(20)
+, latitude	varchar(10)
+, longitude	varchar(10)
+, cq		integer default 0
+, itu		integer default 0
+);
+

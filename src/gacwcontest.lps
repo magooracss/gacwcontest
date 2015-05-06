@@ -4,12 +4,12 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="13">
+    <Units Count="14">
       <Unit0>
         <Filename Value="gacwcontest.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="gacwcontest"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="50"/>
       </Unit0>
       <Unit1>
         <Filename Value="frm_main.pas"/>
@@ -20,9 +20,9 @@
         <UnitName Value="frm_main"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="110"/>
-        <CursorPos X="44" Y="126"/>
-        <UsageCount Value="49"/>
+        <TopLine Value="120"/>
+        <CursorPos X="52" Y="149"/>
+        <UsageCount Value="50"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -33,11 +33,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dmgeneral"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="298"/>
-        <CursorPos X="9" Y="316"/>
-        <UsageCount Value="49"/>
+        <TopLine Value="299"/>
+        <CursorPos X="5" Y="302"/>
+        <UsageCount Value="50"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -52,7 +52,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="26"/>
         <CursorPos X="19" Y="73"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="50"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit3>
@@ -66,12 +66,12 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="677"/>
-        <CursorPos X="62" Y="684"/>
-        <UsageCount Value="48"/>
+        <TopLine Value="227"/>
+        <CursorPos X="59" Y="253"/>
+        <UsageCount Value="49"/>
         <Bookmarks Count="2">
-          <Item0 X="17" Y="697" ID="1"/>
-          <Item1 X="34" Y="641" ID="2"/>
+          <Item0 X="34" Y="648" ID="2"/>
+          <Item1 X="16" Y="754" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -80,11 +80,11 @@
         <Filename Value="SD_Configuracion.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SD_Configuracion"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2"/>
         <CursorPos X="49" Y="44"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -121,7 +121,7 @@
       </Unit9>
       <Unit10>
         <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\datih.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="151"/>
         <CursorPos X="10" Y="172"/>
@@ -130,7 +130,7 @@
       </Unit10>
       <Unit11>
         <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\sysinth.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="22"/>
         <CursorPos X="3" Y="33"/>
@@ -146,6 +146,16 @@
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <UnitName Value="strutils"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="194"/>
+        <CursorPos X="4" Y="222"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit13>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
@@ -153,123 +163,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="dmcontest.pas"/>
-        <Caret Line="722" Column="1" TopLine="701"/>
+        <Caret Line="653" Column="1" TopLine="630"/>
       </Position1>
       <Position2>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="723" Column="1" TopLine="701"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="139" Column="48" TopLine="103"/>
       </Position2>
       <Position3>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="724" Column="1" TopLine="701"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="126" Column="44" TopLine="110"/>
       </Position3>
       <Position4>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="675" Column="1" TopLine="658"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="128" Column="44" TopLine="112"/>
       </Position4>
       <Position5>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="676" Column="1" TopLine="658"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="145" Column="29" TopLine="117"/>
       </Position5>
       <Position6>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="678" Column="1" TopLine="658"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="146" Column="29" TopLine="118"/>
       </Position6>
       <Position7>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="679" Column="1" TopLine="658"/>
+        <Filename Value="frm_main.pas"/>
+        <Caret Line="147" Column="10" TopLine="119"/>
       </Position7>
       <Position8>
         <Filename Value="dmcontest.pas"/>
-        <Caret Line="680" Column="1" TopLine="658"/>
+        <Caret Line="277" Column="48" TopLine="271"/>
       </Position8>
       <Position9>
         <Filename Value="dmcontest.pas"/>
-        <Caret Line="681" Column="1" TopLine="658"/>
+        <Caret Line="757" Column="22" TopLine="726"/>
       </Position9>
       <Position10>
         <Filename Value="dmcontest.pas"/>
-        <Caret Line="683" Column="1" TopLine="658"/>
+        <Caret Line="289" Column="12" TopLine="260"/>
       </Position10>
       <Position11>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="649" Column="1" TopLine="632"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position11>
       <Position12>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="650" Column="1" TopLine="632"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="12" Column="55" TopLine="1"/>
       </Position12>
       <Position13>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="651" Column="1" TopLine="632"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="94" Column="13" TopLine="66"/>
       </Position13>
       <Position14>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="647" Column="46" TopLine="632"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="95" Column="13" TopLine="67"/>
       </Position14>
       <Position15>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="653" Column="1" TopLine="632"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="96" Column="13" TopLine="68"/>
       </Position15>
       <Position16>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="654" Column="1" TopLine="632"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="150" Column="14" TopLine="122"/>
       </Position16>
       <Position17>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="655" Column="1" TopLine="632"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="151" Column="14" TopLine="123"/>
       </Position17>
       <Position18>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="669" Column="1" TopLine="653"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="152" Column="14" TopLine="124"/>
       </Position18>
       <Position19>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="670" Column="1" TopLine="653"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="153" Column="14" TopLine="125"/>
       </Position19>
       <Position20>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="684" Column="1" TopLine="656"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="154" Column="14" TopLine="126"/>
       </Position20>
       <Position21>
-        <Filename Value="dmcontest.pas"/>
-        <Caret Line="17" Column="1" TopLine="17"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="166" Column="17" TopLine="138"/>
       </Position21>
       <Position22>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="137" Column="54" TopLine="109"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="168" Column="92" TopLine="140"/>
       </Position22>
       <Position23>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="143" Column="1" TopLine="110"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="170" Column="48" TopLine="142"/>
       </Position23>
       <Position24>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="142" Column="39" TopLine="113"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="198" Column="13" TopLine="170"/>
       </Position24>
       <Position25>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="143" Column="29" TopLine="116"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="199" Column="13" TopLine="171"/>
       </Position25>
       <Position26>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="144" Column="23" TopLine="118"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="200" Column="13" TopLine="172"/>
       </Position26>
       <Position27>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="146" Column="122" TopLine="118"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="201" Column="13" TopLine="173"/>
       </Position27>
       <Position28>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="151" Column="1" TopLine="121"/>
+        <Filename Value="C:\magoo\lazarus\fpc\2.6.4\source\rtl\objpas\strutils.pp"/>
+        <Caret Line="214" Column="7" TopLine="186"/>
       </Position28>
       <Position29>
         <Filename Value="dmcontest.pas"/>
-        <Caret Line="653" Column="1" TopLine="630"/>
+        <Caret Line="289" Column="3" TopLine="260"/>
       </Position29>
       <Position30>
-        <Filename Value="frm_main.pas"/>
-        <Caret Line="139" Column="48" TopLine="103"/>
+        <Filename Value="dmcontest.pas"/>
+        <Caret Line="771" Column="1" TopLine="741"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

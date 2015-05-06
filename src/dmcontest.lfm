@@ -7,6 +7,7 @@ object DM_Contest: TDM_Contest
   Width = 662
   object cnxContest: TZConnection
     ControlsCodePage = cCP_UTF8
+    AutoEncodeStrings = False
     Properties.Strings = (
       'AutoEncodeStrings=ON'
     )
@@ -3214,5 +3215,16 @@ object DM_Contest: TDM_Contest
       Required = False
       Size = 80
     end
+  end
+  object qInsertRecord: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'UPDATE QSOs'
+      'SET  confirmed    = 0'
+      ''
+    )
+    Params = <>
+    left = 416
+    top = 104
   end
 end

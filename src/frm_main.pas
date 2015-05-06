@@ -14,12 +14,16 @@ type
   { TfrmMain }
 
   TfrmMain = class(TForm)
+    conImportPrefixes: TAction;
     conCalcScores: TAction;
     conAddFileLog: TAction;
     conAddFolderLogs: TAction;
     contLoad: TAction;
     MenuItem10: TMenuItem;
+    MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
     MenuItem9: TMenuItem;
+    selPrefixes: TOpenDialog;
     txLog: TMemo;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -42,6 +46,7 @@ type
     procedure conAddFileLogExecute(Sender: TObject);
     procedure conAddFolderLogsExecute(Sender: TObject);
     procedure conCalcScoresExecute(Sender: TObject);
+    procedure conImportPrefixesExecute(Sender: TObject);
     procedure contLoadExecute(Sender: TObject);
     procedure contNewExecute(Sender: TObject);
     procedure prgExitExecute(Sender: TObject);
@@ -136,6 +141,12 @@ procedure TfrmMain.conCalcScoresExecute(Sender: TObject);
 begin
   DM_Contest.CalculateScores;
   ShowMessage('The scores have been calculated');
+end;
+
+procedure TfrmMain.conImportPrefixesExecute(Sender: TObject);
+begin
+  if selPrefixes.Execute then
+    DM_Contest.ImportPrefixes (selPrefixes.FileName);
 end;
 
 

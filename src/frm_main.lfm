@@ -113,6 +113,12 @@ object frmMain: TfrmMain
       ImageIndex = 13
       OnExecute = conCalcScoresExecute
     end
+    object conImportPrefixes: TAction
+      Category = 'Contest'
+      Caption = 'Import Prefixes'
+      ImageIndex = 26
+      OnExecute = conImportPrefixesExecute
+    end
   end
   object MainMenu1: TMainMenu
     Images = DM_General.ImgAcciones
@@ -131,6 +137,12 @@ object frmMain: TfrmMain
       end
       object MenuItem5: TMenuItem
         Action = contLoad
+      end
+      object MenuItem11: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem12: TMenuItem
+        Action = conImportPrefixes
       end
       object MenuItem6: TMenuItem
         Caption = '-'
@@ -159,5 +171,13 @@ object frmMain: TfrmMain
     Filter = 'Cabrillo (*.cbr)|*.cbr|All Files (*.*)|*.*'
     left = 301
     top = 144
+  end
+  object selPrefixes: TOpenDialog
+    Title = 'Open file'
+    DefaultExt = '.cbr'
+    Filter = 'Text files (*.txt)|*.txt|CSV Files (*.csv)|*.csv|All Files (*.*)|*.*'
+    Options = [ofNoChangeDir, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 301
+    top = 200
   end
 end

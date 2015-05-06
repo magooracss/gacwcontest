@@ -87,6 +87,7 @@ type
     qPairedQSOrstr: TLargeintField;
     qPairedQSOrsts: TLargeintField;
     qPairedQSOt: TLargeintField;
+    qInsertRecord: TZQuery;
     qsoscallr: TStringField;
     qsoscalls: TStringField;
     qsosconfirmed: TLongintField;
@@ -250,6 +251,12 @@ type
      procedure LoadQSOByStationID(stationID: integer);
      function ValidContact: boolean;
 
+     procedure SaveCountries(prefix, country, continent, latitude, longitude
+                            , doubt, itu, cq, table: string);
+     procedure SaveExceptionsTable(var line: TStringList);
+     procedure SavePrefixesTable(var line: TstringList);
+
+
   public
    LabelsField: TStringList;
    property contestName: string read conName write conName;
@@ -274,6 +281,8 @@ type
 
    procedure CalculateScores;
 
+   procedure ImportPrefixes (fileName: String);
+
   end;
 
 var
@@ -283,7 +292,8 @@ implementation
 {$R *.lfm}
 uses
   forms
-  ,dateutils;
+  ,dateutils
+  ;
 
 { TDM_Contest }
 
@@ -739,6 +749,67 @@ begin
       Next;//NextStation
     end;
   end;
+end;
+
+(*******************************************************************************
+*** Load Prefixes from Scott N3FJP format
+********************************************************************************)
+
+
+procedure TDM_Contest.SaveCountries(prefix, country, continent, latitude,
+  longitude, doubt, itu, cq, table: string);
+
+begin
+  with qInsertRecord do
+  begin
+    SQL.Clear;
+    SQL.Add('INSERT INTO ' + table);
+    SQL.Add('(prefix, country, continent, latitude, longitude, itu, cq) ');
+    SQL.Add('VALUES');
+    SQL.Add(''''+ prefix+ ''','''+ country+ ''','''+ continent+ ''','''
+                + latitude+ ''','''+ longitude+ ''','''
+                + itu+ ''','''+ cq+ ''',''');
+    ExecSQL;
+  end;
+end;
+
+
+procedure TDM_Contest.SaveExceptionsTable(var line: TStringList);
+begin
+
+end;
+
+procedure TDM_Contest.SavePrefixesTable(var line: TstringList);
+begin
+
+end;
+
+procedure TDM_Contest.ImportPrefixes(fileName: String);
+var
+  fScott: Text;
+  line: string;
+  fields: TStringList;
+begin
+  AssignFile(fScott, fileName);
+  fields:= TStringList.Create;
+  try
+    Reset(fScott);
+    fields.Delimiter:= ',';
+    While Not EOF(fScott) do
+    begin
+      ReadLn (fScott, line);
+      fields.DelimitedText:= line;
+
+      if Pos('=', fields[0] ) = 2 then
+        SaveExceptionsTable(fields)
+      else
+        SavePrefixesTable(fields);
+    end;
+  finally
+    fields.Free;
+    CloseFile(fileName);
+  end;
+
 end;
 
 
