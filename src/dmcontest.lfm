@@ -7,11 +7,11 @@ object DM_Contest: TDM_Contest
   Width = 662
   object cnxContest: TZConnection
     ControlsCodePage = cCP_UTF8
-    AutoEncodeStrings = False
     Properties.Strings = (
       'AutoEncodeStrings=ON'
     )
     TransactIsolationLevel = tiReadUncommitted
+    Connected = True
     Port = 0
     Database = 'C:\magoo\test\contest.db3'
     Protocol = 'sqlite-3'
@@ -99,6 +99,31 @@ object DM_Contest: TDM_Contest
       'CREATE TABLE tugZones'
       '( idZone integer PRIMARY KEY'
       ', zone varchar (200)'
+      ');'
+      ''
+      ''
+      'CREATE TABLE countryFile'
+      '('
+      '  idCountryFile integer PRIMARY KEY'#9
+      ',  prefix'#9'varchar(10)'
+      ', country'#9'varchar(100)'
+      ', continent'#9'varchar(20)'
+      ', latitude'#9'varchar(10)'
+      ', longitude'#9'varchar(10)'
+      ', cq'#9#9'integer default 0'
+      ', itu'#9#9'integer default 0'
+      ');'
+      ''
+      'CREATE TABLE specialStations'
+      '('
+      '  idSpecialStation integer PRIMARY KEY'#9
+      ', station'#9'varchar(30)'
+      ', country'#9'varchar(100)'
+      ', continent'#9'varchar(20)'
+      ', latitude'#9'varchar(10)'
+      ', longitude'#9'varchar(10)'
+      ', cq'#9#9'integer default 0'
+      ', itu'#9#9'integer default 0'
       ');'
     )
     Connection = cnxContest

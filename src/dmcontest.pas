@@ -776,12 +776,42 @@ end;
 
 procedure TDM_Contest.SaveExceptionsTable(var line: TStringList);
 begin
-
+  with qInsertRecord do
+  begin
+    sql.clear;
+    sql.Add('INSERT INTO specialStations');
+    sql.Add('(station, country, continent, latitude, longitude, cq, itu)');
+    sql.Add('VALUES');
+    sql.Add('('''+ Copy(TRIM(line[0]), 2, Length(TRIM(line[0]))-1)
+            + ''', ''' + line[1]
+            + ''', '''+ StringReplace(line[2], '''', ' ', [rfReplaceAll])
+            + ''', ''' + StringReplace(line[3], '''', ' ', [rfReplaceAll])
+            + ''', ''' + line[4]
+            + ''', ' + line[6]
+            + ', ' + line[7]
+            + ')');
+    ExecSQL;
+  end;
 end;
 
 procedure TDM_Contest.SavePrefixesTable(var line: TstringList);
 begin
-
+  with qInsertRecord do
+  begin
+    sql.clear;
+    sql.Add('INSERT INTO countryFile');
+    sql.Add('(prefix, country, continent, latitude, longitude, cq, itu)');
+    sql.Add('VALUES');
+    sql.Add('('''+ line[0]
+            + ''', ''' + line[1]
+            + ''', '''+ StringReplace(line[2], '''', ' ', [rfReplaceAll])
+            + ''', ''' + StringReplace(line[3], '''', ' ', [rfReplaceAll])
+            + ''', '''  + line[4]
+            + ''', ' + line[6]
+            + ', ' + line[7]
+            + ')');
+    ExecSQL;
+  end;
 end;
 
 procedure TDM_Contest.ImportPrefixes(fileName: String);
@@ -800,14 +830,14 @@ begin
       ReadLn (fScott, line);
       fields.DelimitedText:= line;
 
-      if Pos('=', fields[0] ) = 2 then
+      if Pos('=', fields[0] ) <> 0 then
         SaveExceptionsTable(fields)
       else
         SavePrefixesTable(fields);
     end;
   finally
     fields.Free;
-    CloseFile(fileName);
+    CloseFile(fScott);
   end;
 
 end;

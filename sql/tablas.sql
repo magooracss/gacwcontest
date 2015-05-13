@@ -100,8 +100,7 @@ CREATE TABLE countryFile
 CREATE TABLE specialStations
 (
   idSpecialStation integer PRIMARY KEY	
-, countryFile_id integer default 0
-, prefix	varchar(10)
+, station	varchar(30)
 , country	varchar(100)
 , continent	varchar(20)
 , latitude	varchar(10)
