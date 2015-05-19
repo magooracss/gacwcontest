@@ -11,7 +11,7 @@ uses
  ;
 
 const
-  PROP_NAME = 'contest.cgf';
+  PROP_NAME = 'contest.cfg';
   DB_NAME = 'contest.db3';
 
   PR_SECC = 'CONTEST';
@@ -256,6 +256,7 @@ type
      procedure SaveExceptionsTable(var line: TStringList);
      procedure SavePrefixesTable(var line: TstringList);
 
+     procedure ScoresByStation;
 
   public
    LabelsField: TStringList;
@@ -285,6 +286,24 @@ type
 
   end;
 
+{ TQSOInformation }
+
+TQSOInformation = class
+  private
+    _station: string;
+    function isSpecialStation: boolean;
+    procedure loadSpecialStation;
+    procedure loadStation;
+  public
+   continent: string;
+   country: string;
+   sudamerican: boolean;
+   cqZone: integer;
+   radiocountry: string;
+   procedure Create (station: string);
+ end;
+
+
 var
   DM_Contest: TDM_Contest;
 
@@ -294,6 +313,32 @@ uses
   forms
   ,dateutils
   ;
+
+{ TQSOInformation }
+
+function TQSOInformation.isSpecialStation: boolean;
+begin
+
+end;
+
+procedure TQSOInformation.loadSpecialStation;
+begin
+
+end;
+
+procedure TQSOInformation.loadStation;
+begin
+
+end;
+
+procedure TQSOInformation.Create(station: string);
+begin
+  _station:= station;
+  if isEspecialStation then
+   loadSpecialStation
+  else
+   loadStation;
+end;
 
 { TDM_Contest }
 
@@ -633,6 +678,31 @@ end;
 (*******************************************************************************
 *** Calculate Scores
 ********************************************************************************)
+//
+procedure TDM_Contest.ScoresByStation;
+var
+  continentLst
+  ,countryLst
+  ,sudamericanLst
+  ,cqzoneLst
+  ,radiocountryLst: TStringList;
+begin
+  continentLst:=  TStringList.Create;
+  with qsos do
+  begin
+    First;
+    While Not EOF do
+    begin
+      if ((qsosconfirmed.AsInteger = QSO_CONFIRMED) or
+         (qsosconfirmed.AsInteger = QSO_CONFIRMED)) then
+      begin
+
+      end;
+      Next;
+    end;
+  end;
+end;
+
 
 //QSOs without a partner
 procedure TDM_Contest.ProcessQSOsNoPartner;
@@ -746,6 +816,7 @@ begin
         qsos.Next;
       end;
       DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
+
       Next;//NextStation
     end;
   end;
@@ -813,6 +884,7 @@ begin
     ExecSQL;
   end;
 end;
+
 
 procedure TDM_Contest.ImportPrefixes(fileName: String);
 var
