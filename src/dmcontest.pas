@@ -70,6 +70,14 @@ type
     qAllStationsofftime: TStringField;
     qAllStationsOperators: TStringField;
     qAllStationssoapbox: TStringField;
+    qCountryFilecontinent: TStringField;
+    qCountryFilecountry: TStringField;
+    qCountryFilecq: TLargeintField;
+    qCountryFileidCountryFile: TLargeintField;
+    qCountryFileitu: TLargeintField;
+    qCountryFilelatitude: TStringField;
+    qCountryFilelongitude: TStringField;
+    qCountryFileprefix: TStringField;
     qPairedQSO: TZQuery;
     qPairedQSOcallr: TStringField;
     qPairedQSOcalls: TStringField;
@@ -104,6 +112,16 @@ type
     qsosrstr: TLongintField;
     qsosrsts: TLongintField;
     qsost: TLongintField;
+    qSpecialStation: TZQuery;
+    qCountryFile: TZQuery;
+    qSpecialStationcontinent: TStringField;
+    qSpecialStationcountry: TStringField;
+    qSpecialStationcq: TLargeintField;
+    qSpecialStationidSpecialStation: TLargeintField;
+    qSpecialStationitu: TLargeintField;
+    qSpecialStationlatitude: TStringField;
+    qSpecialStationlongitude: TStringField;
+    qSpecialStationstation: TStringField;
     qStationByCallacity: TStringField;
     qStationByCallaCountry: TStringField;
     qStationByCalladdress: TStringField;
@@ -283,6 +301,7 @@ type
    procedure CalculateScores;
 
    procedure ImportPrefixes (fileName: String);
+   procedure FindCountryByPrefix (aStation: string; prefixIdx: integer = 1);
 
   end;
 
@@ -300,7 +319,7 @@ TQSOInformation = class
    sudamerican: boolean;
    cqZone: integer;
    radiocountry: string;
-   procedure Create (station: string);
+   constructor Create (station: string);
  end;
 
 
@@ -314,33 +333,90 @@ uses
   ,dateutils
   ;
 
+const
+  SUDAMERICAN_CONTINENT = 'SA';
+
 { TQSOInformation }
 
 function TQSOInformation.isSpecialStation: boolean;
 begin
-
+  with DM_Contest.qSpecialStation do
+  begin
+    if active then close;
+    ParamByName('station').AsString:= UpperCase(Trim(_station));
+    Open;
+    Result:= (RecordCount > 0);
+  end;
 end;
 
 procedure TQSOInformation.loadSpecialStation;
 begin
-
+  with DM_Contest do
+  begin
+    continent:= qSpecialStationcontinent.AsString;
+    country:= qSpecialStationcountry.AsString;
+    cqZone:= qSpecialStationcq.AsInteger;
+    { TODO : Where are the radiocountries? }
+    radiocountry:= EmptyStr;
+    sudamerican:= (UpperCase(Trim(continent)) = SUDAMERICAN_CONTINENT);
+  end;
 end;
 
 procedure TQSOInformation.loadStation;
 begin
+  DM_Contest.FindCountryByPrefix (_station);
+
+  with DM_Contest do
+  begin
+    if qCountryFile.RecordCount = 1 then
+    begin
+      continent:= qCountryFilecontinent.AsString;
+      country:= qCountryFilecountry.AsString;
+      sudamerican:= (UpperCase(Trim(continent)) = SUDAMERICAN_CONTINENT);
+      cqZone:= qCountryFilecq.AsInteger;
+      { TODO : Where are the radiocountries? }
+      radiocountry:= EmptyStr;
+    end
+    else
+    begin
+      continent:= EmptyStr;
+      country:= EmptyStr;
+      sudamerican:= False;
+      cqZone:= 0;
+      radiocountry:= EmptyStr;
+    end;
+  end;
 
 end;
 
-procedure TQSOInformation.Create(station: string);
+constructor TQSOInformation.Create(station: string);
 begin
   _station:= station;
-  if isEspecialStation then
+  if isSpecialStation then
    loadSpecialStation
   else
    loadStation;
 end;
 
 { TDM_Contest }
+
+procedure TDM_Contest.FindCountryByPrefix(aStation: string;  prefixIdx: integer = 1);
+var
+  tmpPrefix: string;
+begin
+  if ((NOT qCountryFile.Active) or (qCountryFile.RecordCount > 1)) then
+  begin
+   tmpPrefix:= Copy(aStation,1, prefixIdx);
+   if qCountryFile.Active then qCountryFile.Close;
+   qCountryFile.ParamByName('prefix').AsString:= UpperCase(tmpPrefix);
+   qCountryFile.Open;
+   if qCountryFile.RecordCount > 1 then
+   begin
+     FindCountryByPrefix(aStation, prefixIdx  + 1);
+   end;
+  end;
+end;
+
 
 procedure TDM_Contest.qsosAfterInsert(DataSet: TDataSet);
 begin
@@ -680,14 +756,31 @@ end;
 ********************************************************************************)
 //
 procedure TDM_Contest.ScoresByStation;
+const
+  SCORE_NEW_CONTINENT = 3;
+  SCORE_NEW_COUNTRY = 1;
+  SCORE_IS_SUDAMERICAN = 5;
+  MULTIPLIER_NEW_CQ = 1;
+  MULTIPLIER_NEW_RADIOCOUNTRY = 1;
+
+
 var
-  continentLst
+   continentLst
   ,countryLst
-  ,sudamericanLst
-  ,cqzoneLst
+  , cqzoneLst
   ,radiocountryLst: TStringList;
+  qsoData, stationData: TQSOInformation;
+  score, multiplier: integer;
+  idx: integer;
+  totalScore: integer;
 begin
   continentLst:=  TStringList.Create;
+  countryLst:= TStringList.Create;
+  cqzoneLst:= TStringList.Create;
+  radiocountryLst:= TStringList.Create;
+  score:= 0;
+  multiplier:= 0;
+  stationData:= TQSOInformation.Create(stationscallsign.AsString);
   with qsos do
   begin
     First;
@@ -696,11 +789,44 @@ begin
       if ((qsosconfirmed.AsInteger = QSO_CONFIRMED) or
          (qsosconfirmed.AsInteger = QSO_CONFIRMED)) then
       begin
-
+        try
+          qsoData:= TQSOInformation.Create(qsoscallr.AsString);
+          if NOT continentLst.Find(qsoData.continent, idx) then
+          begin
+            score:= score + SCORE_NEW_CONTINENT;
+            continentLst.Add(qsoData.continent);
+          end;
+          if NOT countryLst.Find(qsoData.country, idx) then
+          begin
+            score:= score + SCORE_NEW_COUNTRY;
+            countryLst.Add(qsoData.country);
+          end;
+          if ((NOT stationData.sudamerican) AND (qsoData.sudamerican)) then
+          begin
+            score:= score + SCORE_IS_SUDAMERICAN;
+          end;
+          if NOT cqzoneLst.Find(IntToStr(qsoData.cqZone), idx) then
+          begin
+            multiplier:= multiplier + MULTIPLIER_NEW_CQ;
+            cqzoneLst.Add(IntToStr(qsoData.cqZone));
+          end;
+        finally
+          qsoData.Free;
+        end;
       end;
       Next;
     end;
   end;
+  totalScore:= multiplier * score;
+
+  { TODO : I need save totalScore in the DB }
+
+  stationData.Free;
+  continentLst.Free;
+  countryLst.Free;
+  cqzoneLst.Free;
+  radiocountryLst.Free;
+
 end;
 
 
@@ -816,9 +942,20 @@ begin
         qsos.Next;
       end;
       DM_General.GrabarDatos(SELQSOs, INSQSOs, UPDQSOs, qsos, 'idQSO');
-
       Next;//NextStation
     end;
+
+    { TODO : REFACTORING URGENT!!!}
+    First;
+    while not EOF do
+    begin
+      LoadQSOByStationID(qAllStationsidStation.AsInteger);
+      ScoresByStation;
+      Next;
+    end;
+
+
+
   end;
 end;
 

@@ -3252,4 +3252,219 @@ object DM_Contest: TDM_Contest
     left = 416
     top = 104
   end
+  object qSpecialStation: TZQuery
+    Connection = cnxContest
+    Active = True
+    SQL.Strings = (
+      'SELECT *'
+      'FROM Specialstations'
+      'WHERE station LIKE :station'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'station'
+        ParamType = ptUnknown
+      end>
+    left = 376
+    top = 288
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'station'
+        ParamType = ptUnknown
+      end>
+    object qSpecialStationidSpecialStation: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'idSpecialStation'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qSpecialStationstation: TStringField
+      DisplayWidth = 120
+      FieldKind = fkData
+      FieldName = 'station'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 120
+    end
+    object qSpecialStationcountry: TStringField
+      DisplayWidth = 400
+      FieldKind = fkData
+      FieldName = 'country'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 400
+    end
+    object qSpecialStationcontinent: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'continent'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object qSpecialStationlatitude: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'latitude'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qSpecialStationlongitude: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'longitude'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qSpecialStationcq: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'cq'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qSpecialStationitu: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'itu'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object qCountryFile: TZQuery
+    Connection = cnxContest
+    SQL.Strings = (
+      'SELECT *'
+      'FROM countryFile'
+      'WHERE prefix LIKE :prefix || ''%'''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'prefix'
+        ParamType = ptUnknown
+      end>
+    left = 464
+    top = 288
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'prefix'
+        ParamType = ptUnknown
+      end>
+    object qCountryFileidCountryFile: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'idCountryFile'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qCountryFileprefix: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'prefix'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qCountryFilecountry: TStringField
+      DisplayWidth = 400
+      FieldKind = fkData
+      FieldName = 'country'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 400
+    end
+    object qCountryFilecontinent: TStringField
+      DisplayWidth = 80
+      FieldKind = fkData
+      FieldName = 'continent'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 80
+    end
+    object qCountryFilelatitude: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'latitude'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qCountryFilelongitude: TStringField
+      DisplayWidth = 40
+      FieldKind = fkData
+      FieldName = 'longitude'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 40
+    end
+    object qCountryFilecq: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'cq'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qCountryFileitu: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'itu'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
 end
